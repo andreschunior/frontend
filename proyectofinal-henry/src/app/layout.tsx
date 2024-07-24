@@ -16,7 +16,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+          rel="stylesheet"
+        />
+        <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+      </body>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
     </html>
   );
 }
