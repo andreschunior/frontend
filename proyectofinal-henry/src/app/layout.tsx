@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Navbar } from "@/Components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Navbar />
         {children}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
         <link
@@ -26,10 +28,10 @@ export default function RootLayout({
         <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
       </body>
       <head>
-        <link
+        {/* <link
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
           rel="stylesheet"
-        />
+        /> */}
       </head>
     </html>
   );

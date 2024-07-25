@@ -31,6 +31,9 @@ body {
   background-color: transparent;
   perspective: 1000px; /* Remove this if you want the flip effect on a container */
 }
+html {
+  scroll-behavior: smooth;
+}
 
 .flip-box-inner {
   position: relative;

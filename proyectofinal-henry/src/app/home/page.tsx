@@ -8,7 +8,6 @@ import React from "react";
 const Home: React.FC = () => {
   return (
     <>
-      <Navbar />
       <Promo1 />
       <PlanesInternet />
       <Banner />

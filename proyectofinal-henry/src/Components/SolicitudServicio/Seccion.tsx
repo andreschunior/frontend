@@ -4,7 +4,10 @@ import { FormServicio } from "./FormServicio";
 export const Seccion: React.FC = () => {
   return (
     <>
-      <div className="w-full min-h-screen bg-gradient-to-r from-[#0279F0] to-[#00478F] flex flex-col lg:flex-row items-center justify-center p-4">
+      <div
+        id="contacto"
+        className="w-full min-h-screen bg-gradient-to-r from-[#0279F0] to-[#00478F] flex flex-col lg:flex-row items-center justify-center p-4"
+      >
         <div className="lg:w-1/3 flex flex-col items-center text-center lg:text-left">
           <h1 className="text-white text-4xl mt-10 lg:mt-0">
             ¿Necesitas más ayuda?
