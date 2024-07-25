@@ -1,5 +1,6 @@
 import React from "react";
 import { BotonPagos } from "../Boton/page";
+import botonPago from "../../../pics/boton Pagos.svg";
 
 export const Navbar: React.FC = () => {
   return (
@@ -24,7 +25,7 @@ export const Navbar: React.FC = () => {
               <ul className=" ml-12 font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent dark:bg-transparent md:dark:bg-transparent dark:border-gray-700">
                 <li>
                   <a
-                    href="#"
+                    href="/home"
                     className="block py-2 px-3 text-white rounded md:p-0 dark:text-white"
                     aria-current="page"
                   >
@@ -41,7 +42,7 @@ export const Navbar: React.FC = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/herramientas"
                     className="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   >
                     Herramientas
@@ -49,7 +50,7 @@ export const Navbar: React.FC = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/home#contacto"
                     className="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   >
                     Contacto
@@ -61,7 +62,7 @@ export const Navbar: React.FC = () => {
 
           {/* boton de pagos  */}
           <div className="ml-auto flex  items-center  w-60">
-            <BotonPagos />
+            <BotonPagos Imagen={botonPago} />
           </div>
 
           <button
