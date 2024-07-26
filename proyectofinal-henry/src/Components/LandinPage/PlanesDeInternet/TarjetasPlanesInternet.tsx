@@ -1,9 +1,9 @@
 import React from "react";
-import imagenHogar from "../../../pics/imagenHogar.svg";
-import imagenEmpresas from "../../../pics/imagenEmpresa.svg";
+import imagenHogar from "../../../../pics/imagenHogar.svg";
+import imagenEmpresas from "../../../../pics/imagenEmpresa.svg";
 import { FlipBox } from "./flipbox";
-import HogarIcono from "../../../pics/iconoCasa.svg";
-import EmpresaIcono from "../../../pics/iconoEmpresas.svg";
+import HogarIcono from "../../../../pics/iconoCasa.svg";
+import EmpresaIcono from "../../../../pics/iconoEmpresas.svg";
 
 export const TarjetasPlanesInternet: React.FC = () => {
   return (

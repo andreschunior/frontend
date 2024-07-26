@@ -1,9 +1,9 @@
-import { BotonPagos } from "@/Components/Boton/page";
-import { Carrousel } from "@/Components/Carrousel/CarrouselBanner";
-import { Navbar } from "@/Components/Navbar";
-import { TarjetasPlanesInternet } from "@/Components/PlanesDeInternet/TarjetasPlanesInternet";
-import { TituloPlanesInternet } from "@/Components/PlanesDeInternet/Titulo";
-import { TextoCentral } from "@/Components/TextoGeneralCentrado/TextoCentral";
+import { BotonPagos } from "@/Components/LandinPage/Boton/page";
+import { Carrousel } from "@/Components/LandinPage/Carrousel/CarrouselBanner";
+import { Navbar } from "@/Components/LandinPage/Navbar";
+import { TarjetasPlanesInternet } from "@/Components/LandinPage/PlanesDeInternet/TarjetasPlanesInternet";
+import { TituloPlanesInternet } from "@/Components/LandinPage/PlanesDeInternet/Titulo";
+import { TextoCentral } from "@/Components/LandinPage/TextoGeneralCentrado/TextoCentral";
 import Boton from "../../../pics/BotonTestVelocidad.svg";
 
 import React from "react";

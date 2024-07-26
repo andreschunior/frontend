@@ -1,5 +1,5 @@
 import React from "react";
-import Persona from "../../../pics/persona1.svg";
+import Persona from "../../../../pics/persona1.svg";
 
 export const Persona1: React.FC = () => {
   return (

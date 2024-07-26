@@ -1,7 +1,7 @@
 import React from "react";
-import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
-import test1 from "../../../pics/test1.svg";
-import test2 from "../../../pics/test2.svg";
+//import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
+import test1 from "../../../../pics/test1.svg";
+import test2 from "../../../../pics/test2.svg";
 
 import { url } from "inspector";
 import { TituloPlanesInternet } from "../PlanesDeInternet/Titulo";

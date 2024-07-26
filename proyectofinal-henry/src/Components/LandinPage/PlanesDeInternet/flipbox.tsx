@@ -1,5 +1,5 @@
 import React from "react";
-import casaIcono from "../../../pics/iconoCasa.svg";
+import casaIcono from "../../../../pics/iconoCasa.svg";
 import FlipBoxProps from "./Type";
 
 export const FlipBox: React.FC<FlipBoxProps> = ({
