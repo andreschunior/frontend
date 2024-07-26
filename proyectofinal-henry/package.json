@@ -11,8 +11,12 @@
   "dependencies": {
     "flowbite": "^2.4.1",
     "next": "14.2.5",
+    "nookies": "^2.5.2",
+    "only": "^0.0.2",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "server": "^1.0.39",
+    "sweetalert2": "^11.12.3"
   },
   "devDependencies": {
     "@types/node": "^20",

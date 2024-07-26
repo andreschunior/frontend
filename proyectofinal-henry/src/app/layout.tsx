@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/Components/LandinPage/Navbar";
+import { AuthProvider } from "@/context/AuthContext";
+import { DarkProvider } from "@/context/DarkContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,23 +18,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
-        {children}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-        <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
-          rel="stylesheet"
-        />
-        <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
-      </body>
-      <head>
-        {/* <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-          rel="stylesheet"
-        /> */}
-      </head>
-    </html>
+    <AuthProvider>
+      <DarkProvider>
+       <SidebarProvider>
+        <html lang="en">
+          <body className={inter.className}>
+              {children}
+          </body>
+        </html>
+      </SidebarProvider>
+     </DarkProvider>
+    </AuthProvider>
   );
 }

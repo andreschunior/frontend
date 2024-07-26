@@ -17,6 +17,9 @@
 }
 
 body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   color: rgb(var(--foreground-rgb));
   background-color: #E7ECF0;
 }
@@ -64,4 +67,35 @@ html {
 .flip-box-back {
   background-color: #2980b9; /* Background color of the back side */
   transform: rotateY(180deg);
+}
+
+
+
+@layer utilities {
+  .title {
+    @apply text-3xl text-gray-400;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logoIns {
+    @apply animate-logoIns-spin transform-style-3d;
+  }
+}
+
+@keyframes logoIns-spin {
+  from {
+    transform: rotateY(0deg); /* Inicia en 0 grados de rotación en el eje Y */
+  }
+  to {
+    transform: rotateY(360deg); /* Termina en 360 grados de rotación en el eje Y */
+  }
+}
+
+.animate-logoIns-spin {
+  animation: logoIns-spin 9s linear infinite;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d; /* Para habilitar el giro en 3D */
 }
