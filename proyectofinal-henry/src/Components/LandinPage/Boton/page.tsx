@@ -1,5 +1,5 @@
 import React from "react";
-import botonPago from "../../../pics/boton Pagos.svg";
+import botonPago from "../../../../pics/boton Pagos.svg";
 import { BotonProps } from "./type";
 
 export const BotonPagos: React.FC<BotonProps> = ({ Imagen }) => {

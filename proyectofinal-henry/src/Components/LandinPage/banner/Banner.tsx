@@ -1,5 +1,5 @@
 import React from "react";
-import banner from "../../../pics/banner1.svg";
+import banner from "../../../../pics/banner1.svg";
 
 export const Banner: React.FC = () => {
   return (
