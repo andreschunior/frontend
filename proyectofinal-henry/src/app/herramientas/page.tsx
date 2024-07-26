@@ -7,6 +7,7 @@ import { TextoCentral } from "@/Components/TextoGeneralCentrado/TextoCentral";
 import Boton from "../../../pics/BotonTestVelocidad.svg";
 
 import React from "react";
+import Link from "next/link";
 
 const Home: React.FC = () => {
   return (
@@ -18,11 +19,11 @@ const Home: React.FC = () => {
       <TituloPlanesInternet title="Test de Velocidad " />
       <TextoCentral texto="Sigue los siguientes pasos para poder probar tu conexion de internet " />
       <br />
-      <a href="#">
+      <Link href="https://www.nperf.com/es/">
         <div className="flex justify-center">
           <BotonPagos Imagen={Boton} />
         </div>
-      </a>
+      </Link>
       <br />
       <TituloPlanesInternet title="¿Qué debo hacer?" />
       <Carrousel />
