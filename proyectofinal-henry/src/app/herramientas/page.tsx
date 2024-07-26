@@ -12,6 +12,7 @@ import Link from "next/link";
 const Home: React.FC = () => {
   return (
     <>
+    <Navbar />
       <br />
       <br />
       <br />
