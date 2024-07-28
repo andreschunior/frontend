@@ -2,6 +2,7 @@
 import { useSidebarContext } from "@/context/SidebarContext";
 import React from "react";
 import Loading from "@/Components/Dashboard/Loading/Loading";
+import Request from "@/Components/Dashboard/Main/Requests/Requests"
 
 
 const Home = () => {
@@ -26,6 +27,8 @@ const Home = () => {
         <h2 className="text-1xl text-gray-400 dark:text-orange-300/80">
         Integrantes del equipo
         </h2>
+        
+        <Request/>
 
         <ul className="ml-8">
           <li>Jose Andres Borrero Labrador - Front End</li>
