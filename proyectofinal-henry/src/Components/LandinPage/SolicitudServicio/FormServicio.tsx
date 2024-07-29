@@ -1,13 +1,8 @@
 "use client";
-<<<<<<< HEAD
-import React, { useState, useEffect } from "react";
-import { useRouter } from 'next/navigation';
-=======
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { fetchProvincias } from "@/services/relevamientosServices";
->>>>>>> develop
 
 interface Localidad {
   id: string;
@@ -21,107 +16,6 @@ interface Provincia {
 }
 
 export const FormServicio: React.FC = () => {
-<<<<<<< HEAD
-  const router = useRouter();
-
-  // Lista de provincias de Argentina
-  const provincias: Provincia[] = [
-    "Buenos Aires",
-    "Catamarca",
-    "Chaco",
-    "Chubut",
-    "CABA",
-    "Córdoba",
-    "Corrientes",
-    "Entre Ríos",
-    "Formosa",
-    "Jujuy",
-    "La Pampa",
-    "La Rioja",
-    "Mendoza",
-    "Misiones",
-    "Neuquén",
-    "Río Negro",
-    "Salta",
-    "San Juan",
-    "San Luis",
-    "Santa Cruz",
-    "Santa Fe",
-    "Santiago del Estero",
-    "Tierra del Fuego",
-    "Tucumán",
-  ];
-
-  // Lista de localidades por provincia
-  const localidades: Localidades = {
-    "Buenos Aires": [
-      "La Plata",
-      "Mar del Plata",
-      "Bahía Blanca",
-      "Lomas de Zamora",
-      "Tigre",
-    ],
-    CABA: ["Buenos Aires"],
-    Córdoba: [
-      "Córdoba",
-      "Villa María",
-      "Río Cuarto",
-      "San Francisco",
-      "Alta Gracia",
-    ],
-    Catamarca: [
-      "San Fernando del Valle de Catamarca",
-      "Belén",
-      "Fiambalá",
-      "Chilecito",
-    ],
-    Chaco: ["Resistencia", "Charata", "Saenz Peña", "Pcia. Roque Sáenz Peña"],
-    Chubut: ["Rawson", "Comodoro Rivadavia", "Trelew", "Puerto Madryn"],
-    Corrientes: ["Corrientes", "Goya", "Mercedes", "Paso de los Libres"],
-    "Entre Ríos": ["Paraná", "Concordia", "Gualeguaychú", "Colón"],
-    Formosa: ["Formosa", "Clorinda", "El Colorado", "Pirané"],
-    Jujuy: [
-      "San Salvador de Jujuy",
-      "Palpalá",
-      "Libertador General San Martín",
-    ],
-    "La Pampa": ["Santa Rosa", "General Pico", "Realicó"],
-    "La Rioja": ["La Rioja", "Chamical", "Chilecito"],
-    Mendoza: ["Mendoza", "San Rafael", "Malargüe", "Godoy Cruz"],
-    Misiones: ["Posadas", "Eldorado", "Oberá"],
-    Neuquén: [
-      "Neuquén",
-      "San Martín de los Andes",
-      "Caviahue",
-      "Villa La Angostura",
-    ],
-    "Río Negro": ["Viedma", "San Carlos de Bariloche", "General Roca"],
-    Salta: ["Salta", "Orán", "Tartagal"],
-    "San Juan": ["San Juan", "Jáchal", "Albardón"],
-    "San Luis": ["San Luis", "Villa Mercedes", "El Trapiche"],
-    "Santa Cruz": ["Río Gallegos", "El Calafate", "Caleta Olivia"],
-    "Santa Fe": ["Santa Fe", "Rosario", "Rafaela", "Venado Tuerto"],
-    "Santiago del Estero": [
-      "Santiago del Estero",
-      "La Banda",
-      "Termas de Río Hondo",
-    ],
-    "Tierra del Fuego": ["Ushuaia", "Río Grande", "Tolhuin"],
-    Tucumán: ["San Miguel de Tucumán", "Concepción", "Tafí Viejo"],
-  };
-
-  const [selectedProvincia, setSelectedProvincia] = useState<Provincia | "">("");
-  const [localidadesDisponibles, setLocalidadesDisponibles] = useState<string[]>([]);
-  const [formData, setFormData] = useState({
-    nombre: '',
-    correo: '',
-    telefono: '',
-    direccion: '',
-    provincia: '',
-    localidad: '',
-    mensaje: '',
-  });
-=======
   const {
     register,
     handleSubmit,
@@ -134,7 +28,6 @@ export const FormServicio: React.FC = () => {
   const [localidadesDisponibles, setLocalidadesDisponibles] = useState<
     Localidad[]
   >([]);
->>>>>>> develop
 
   useEffect(() => {
     async function loadProvincias() {
@@ -178,32 +71,13 @@ export const FormServicio: React.FC = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Convierte el objeto formData en una cadena de consulta
-    const queryString = new URLSearchParams(formData as any).toString();
-
-    // Redirige al usuario a la página de request con los parámetros de consulta
-    router.push(`/request?${queryString}`);
-  };
-
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg mx-auto lg:ml-auto lg:w-1/3">
       <h1 className="text-2xl font-bold text-black text-center mb-6">
         Elige el pan que quieres solicitar
       </h1>
       <p className="text-black text-center mb-4">Por favor ingrese sus datos</p>
-<<<<<<< HEAD
-      <form className="space-y-4 max-h-screen" onSubmit={handleSubmit}>
-=======
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
->>>>>>> develop
         <div>
           <label htmlFor="nombre" className="block text-gray-700">
             Nombre
@@ -211,15 +85,8 @@ export const FormServicio: React.FC = () => {
           <input
             type="text"
             id="nombre"
-            name="nombre"
             className="w-full p-2 border border-gray-300 rounded-md"
-<<<<<<< HEAD
-            required
-            value={formData.nombre}
-            onChange={handleChange}
-=======
             {...register("nombre", { required: true, maxLength: 50 })}
->>>>>>> develop
           />
           {errors.nombre && (
             <p className="text-red-500">
@@ -234,19 +101,12 @@ export const FormServicio: React.FC = () => {
           <input
             type="email"
             id="correo"
-            name="correo"
             className="w-full p-2 border border-gray-300 rounded-md"
-<<<<<<< HEAD
-            required
-            value={formData.correo}
-            onChange={handleChange}
-=======
             {...register("correo", {
               required: true,
               maxLength: 100,
               pattern: /^\S+@\S+$/i,
             })}
->>>>>>> develop
           />
           {errors.correo && (
             <p className="text-red-500">
@@ -261,19 +121,12 @@ export const FormServicio: React.FC = () => {
           <input
             type="tel"
             id="telefono"
-            name="telefono"
             className="w-full p-2 border border-gray-300 rounded-md"
-<<<<<<< HEAD
-            required
-            value={formData.telefono}
-            onChange={handleChange}
-=======
             {...register("telefono", {
               required: true,
               maxLength: 15,
               pattern: /^[0-9]+$/,
             })}
->>>>>>> develop
           />
           {errors.telefono && (
             <p className="text-red-500">
@@ -288,15 +141,8 @@ export const FormServicio: React.FC = () => {
           <input
             type="text"
             id="direccion"
-            name="direccion"
             className="w-full p-2 border border-gray-300 rounded-md"
-<<<<<<< HEAD
-            required
-            value={formData.direccion}
-            onChange={handleChange}
-=======
             {...register("direccion", { required: true, maxLength: 100 })}
->>>>>>> develop
           />
           {errors.direccion && (
             <p className="text-red-500">
@@ -310,20 +156,13 @@ export const FormServicio: React.FC = () => {
           </label>
           <select
             id="provincia"
-            name="provincia"
             className="w-full p-2 border border-gray-300 rounded-md"
-<<<<<<< HEAD
-            onChange={(e) => setSelectedProvincia(e.target.value as Provincia)}
-            required
-            value={formData.provincia}
-=======
             {...register("provincia", { required: true })}
             onChange={(e) => {
               const selectedId = e.target.value;
               setSelectedProvincia(selectedId);
               setSelectedLocalidad(""); // Resetea la localidad al cambiar la provincia
             }}
->>>>>>> develop
           >
             <option value="">Seleccione una provincia</option>
             {provincias.map((provincia) => (
@@ -342,16 +181,9 @@ export const FormServicio: React.FC = () => {
           </label>
           <select
             id="localidad"
-            name="localidad"
             className="w-full p-2 border border-gray-300 rounded-md"
-<<<<<<< HEAD
-            required
-            value={formData.localidad}
-            onChange={handleChange}
-=======
             {...register("localidad", { required: true })}
             onChange={(e) => setSelectedLocalidad(e.target.value)}
->>>>>>> develop
           >
             <option value="">Seleccione una localidad</option>
             {localidadesDisponibles.length > 0 ? (
@@ -375,18 +207,9 @@ export const FormServicio: React.FC = () => {
             Comentarios
           </label>
           <textarea
-<<<<<<< HEAD
-            id="mensaje"
-            name="mensaje"
-            className="w-full p-2 border border-gray-300 rounded-md h-32"
-            required
-            value={formData.mensaje}
-            onChange={handleChange}
-=======
             id="razon"
             className="w-full p-2 border border-gray-300 rounded-md h-32 resize-none"
             {...register("razon", { required: true, maxLength: 500 })}
->>>>>>> develop
           ></textarea>
           {errors.razon && (
             <p className="text-red-500">
