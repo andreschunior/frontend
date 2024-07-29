@@ -1,8 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { provincias, localidades } from "./ProvinciasYLocalidadesData";
+import { fetchProvincias } from "@/services/relevamientosServices";
+
+interface Localidad {
+  id: string;
+  nombre: string;
+}
+
+interface Provincia {
+  id: string;
+  nombre: string;
+  localidades: Localidad[];
+}
 
 export const FormServicio: React.FC = () => {
   const {
@@ -11,174 +22,210 @@ export const FormServicio: React.FC = () => {
     watch,
     formState: { errors },
   } = useForm();
+  const [provincias, setProvincias] = useState<Provincia[]>([]);
   const [selectedProvincia, setSelectedProvincia] = useState<string>("");
-  const localidadesDisponibles = localidades[selectedProvincia] || [];
+  const [selectedLocalidad, setSelectedLocalidad] = useState<string>("");
+  const [localidadesDisponibles, setLocalidadesDisponibles] = useState<
+    Localidad[]
+  >([]);
+
+  useEffect(() => {
+    async function loadProvincias() {
+      const data = await fetchProvincias();
+      setProvincias(data);
+    }
+    loadProvincias();
+  }, []);
+
+  useEffect(() => {
+    const provincia = provincias.find((p) => p.id === selectedProvincia);
+    if (provincia) {
+      setLocalidadesDisponibles(provincia.localidades);
+    } else {
+      setLocalidadesDisponibles([]);
+    }
+  }, [selectedProvincia, provincias]);
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await axios.post("URL_DEL_ENDPOINT", {
+      const provincia = provincias.find((p) => p.id === selectedProvincia);
+      const localidad = localidadesDisponibles.find(
+        (l) => l.id === selectedLocalidad
+      );
+      console.log(data); //este console log
+
+      const response = await axios.post("http://localhost:3001/relevamientos", {
         nombre: data.nombre,
         email: data.correo,
         telefono: data.telefono,
-        razon: data.mensaje,
+        razon: data.razon,
         direccion: data.direccion,
-        provincia: data.provincia,
-        localidad: data.localidad,
+        provincia: provincia ? provincia.nombre : "",
+        localidad: localidad ? localidad.nombre : "",
       });
       console.log("Datos enviados con éxito:", response.data);
-      alert("Datos enviados con éxito:");
+      alert("Datos enviados con éxito");
     } catch (error) {
       console.error("Error enviando los datos:", error);
+      console.log(data); // Aquí puedes ver los datos que están siendo enviados.
     }
   };
+
   return (
-    <>
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg mx-auto lg:ml-auto lg:w-1/3">
-        <h1 className="text-2xl font-bold text-black text-center mb-6">
-          Elige el pan que quieres solicitar
-        </h1>
-        <p className="text-black text-center mb-4">
-          Por favor ingrese sus datos
-        </p>
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <label htmlFor="nombre" className="block text-gray-700">
-              Nombre
-            </label>
-            <input
-              type="text"
-              id="nombre"
-              className="w-full p-2 border border-gray-300 rounded-md"
-              {...register("nombre", { required: true, maxLength: 50 })}
-            />
-            {errors.nombre && (
-              <p className="text-red-500">
-                Nombre es requerido y debe tener menos de 50 caracteres
-              </p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="correo" className="block text-gray-700">
-              Correo electrónico
-            </label>
-            <input
-              type="email"
-              id="correo"
-              className="w-full p-2 border border-gray-300 rounded-md"
-              {...register("correo", {
-                required: true,
-                maxLength: 100,
-                pattern: /^\S+@\S+$/i,
-              })}
-            />
-            {errors.correo && (
-              <p className="text-red-500">
-                Correo electrónico es requerido y debe ser válido
-              </p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="telefono" className="block text-gray-700">
-              Teléfono
-            </label>
-            <input
-              type="tel"
-              id="telefono"
-              className="w-full p-2 border border-gray-300 rounded-md"
-              {...register("telefono", {
-                required: true,
-                maxLength: 15,
-                pattern: /^[0-9]+$/,
-              })}
-            />
-            {errors.telefono && (
-              <p className="text-red-500">
-                Teléfono es requerido y debe ser un número válido
-              </p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="direccion" className="block text-gray-700">
-              Dirección
-            </label>
-            <input
-              type="text"
-              id="direccion"
-              className="w-full p-2 border border-gray-300 rounded-md"
-              {...register("direccion", { required: true, maxLength: 100 })}
-            />
-            {errors.direccion && (
-              <p className="text-red-500">
-                Dirección es requerida y debe tener menos de 100 caracteres
-              </p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="provincia" className="block text-gray-700">
-              Provincia
-            </label>
-            <select
-              id="provincia"
-              className="w-full p-2 border border-gray-300 rounded-md"
-              {...register("provincia", { required: true })}
-              onChange={(e) => setSelectedProvincia(e.target.value)}
-            >
-              <option value="">Seleccione una provincia</option>
-              {provincias.map((provincia) => (
-                <option key={provincia} value={provincia}>
-                  {provincia}
+    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg mx-auto lg:ml-auto lg:w-1/3">
+      <h1 className="text-2xl font-bold text-black text-center mb-6">
+        Elige el pan que quieres solicitar
+      </h1>
+      <p className="text-black text-center mb-4">Por favor ingrese sus datos</p>
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label htmlFor="nombre" className="block text-gray-700">
+            Nombre
+          </label>
+          <input
+            type="text"
+            id="nombre"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            {...register("nombre", { required: true, maxLength: 50 })}
+          />
+          {errors.nombre && (
+            <p className="text-red-500">
+              Nombre es requerido y debe tener menos de 50 caracteres
+            </p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="correo" className="block text-gray-700">
+            Correo electrónico
+          </label>
+          <input
+            type="email"
+            id="correo"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            {...register("correo", {
+              required: true,
+              maxLength: 100,
+              pattern: /^\S+@\S+$/i,
+            })}
+          />
+          {errors.correo && (
+            <p className="text-red-500">
+              Correo electrónico es requerido y debe ser válido
+            </p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="telefono" className="block text-gray-700">
+            Teléfono
+          </label>
+          <input
+            type="tel"
+            id="telefono"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            {...register("telefono", {
+              required: true,
+              maxLength: 15,
+              pattern: /^[0-9]+$/,
+            })}
+          />
+          {errors.telefono && (
+            <p className="text-red-500">
+              Teléfono es requerido y debe ser un número válido
+            </p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="direccion" className="block text-gray-700">
+            Dirección
+          </label>
+          <input
+            type="text"
+            id="direccion"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            {...register("direccion", { required: true, maxLength: 100 })}
+          />
+          {errors.direccion && (
+            <p className="text-red-500">
+              Dirección es requerida y debe tener menos de 100 caracteres
+            </p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="provincia" className="block text-gray-700">
+            Provincia
+          </label>
+          <select
+            id="provincia"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            {...register("provincia", { required: true })}
+            onChange={(e) => {
+              const selectedId = e.target.value;
+              setSelectedProvincia(selectedId);
+              setSelectedLocalidad(""); // Resetea la localidad al cambiar la provincia
+            }}
+          >
+            <option value="">Seleccione una provincia</option>
+            {provincias.map((provincia) => (
+              <option key={provincia.id} value={provincia.id}>
+                {provincia.nombre}
+              </option>
+            ))}
+          </select>
+          {errors.provincia && (
+            <p className="text-red-500">Provincia es requerida</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="localidad" className="block text-gray-700">
+            Localidad
+          </label>
+          <select
+            id="localidad"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            {...register("localidad", { required: true })}
+            onChange={(e) => setSelectedLocalidad(e.target.value)}
+          >
+            <option value="">Seleccione una localidad</option>
+            {localidadesDisponibles.length > 0 ? (
+              localidadesDisponibles.map((localidad) => (
+                <option key={localidad.id} value={localidad.id}>
+                  {localidad.nombre}
                 </option>
-              ))}
-            </select>
-            {errors.provincia && (
-              <p className="text-red-500">Provincia es requerida</p>
+              ))
+            ) : (
+              <option value="" disabled>
+                No hay localidades disponibles
+              </option>
             )}
-          </div>
-          <div>
-            <label htmlFor="localidad" className="block text-gray-700">
-              Localidad
-            </label>
-            <select
-              id="localidad"
-              className="w-full p-2 border border-gray-300 rounded-md"
-              {...register("localidad", { required: true })}
-            >
-              <option value="">Seleccione una localidad</option>
-              {localidadesDisponibles.map((localidad: string) => (
-                <option key={localidad} value={localidad}>
-                  {localidad}
-                </option>
-              ))}
-            </select>
-            {errors.localidad && (
-              <p className="text-red-500">Localidad es requerida</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="mensaje" className="block text-gray-700">
-              Comentarios
-            </label>
-            <textarea
-              id="mensaje"
-              className="w-full p-2 border border-gray-300 rounded-md h-32 resize-none"
-              {...register("mensaje", { required: true, maxLength: 500 })}
-            ></textarea>
-            {errors.mensaje && (
-              <p className="text-red-500">
-                Comentarios es requerido y debe tener menos de 500 caracteres
-              </p>
-            )}
-          </div>
-          <div className="text-center">
-            <button
-              type="submit"
-              className="shadow-md px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-            >
-              Enviar
-            </button>
-          </div>
-        </form>
-      </div>
-    </>
+          </select>
+          {errors.localidad && (
+            <p className="text-red-500">Localidad es requerida</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="razon" className="block text-gray-700">
+            Comentarios
+          </label>
+          <textarea
+            id="razon"
+            className="w-full p-2 border border-gray-300 rounded-md h-32 resize-none"
+            {...register("razon", { required: true, maxLength: 500 })}
+          ></textarea>
+          {errors.razon && (
+            <p className="text-red-500">
+              Comentarios es requerido y debe tener menos de 500 caracteres
+            </p>
+          )}
+        </div>
+        <div className="text-center">
+          <button
+            type="submit"
+            className="shadow-md px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          >
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
