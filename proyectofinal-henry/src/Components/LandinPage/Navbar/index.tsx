@@ -1,6 +1,7 @@
 import React from "react";
 import { BotonPagos } from "../Boton/page";
 import botonPago from "../../../../pics/boton Pagos.svg";
+import Link from "next/link";
 
 export const Navbar: React.FC = () => {
   return (
@@ -60,10 +61,12 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* boton de pagos  */}
-          <div className="ml-auto flex  items-center  w-60">
-            <BotonPagos Imagen={botonPago} />
-          </div>
+          <Link href="/login/1">
+            {/* boton de pagos  */}
+            <div className="ml-auto flex  items-center  w-60">
+              <BotonPagos Imagen={botonPago} />
+            </div>
+          </Link>
 
           <button
             data-collapse-toggle="navbar-default"

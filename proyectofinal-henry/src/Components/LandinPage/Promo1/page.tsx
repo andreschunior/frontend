@@ -10,7 +10,9 @@ export const Promo1: React.FC = () => {
         <Persona1 />
         <TextoPromo1 />
       </div>
-      <Franja />
+      <div className="flex justify-center ">
+        <Franja texto="UltraNet Velocidad que Conecta" />
+      </div>
     </>
   );
 };
