@@ -15,8 +15,8 @@ const ButtonAvatar: React.FC = () => {
   };
 
   useEffect(() => {
-    if (userData?.user) {
-      const letter = firstLetterName(userData?.user.name);
+    if (userData?.userData) {
+      const letter = firstLetterName(userData?.userData.nombre);
       setFirstLetter(letter);
     }
   }, [userData]);
@@ -45,7 +45,7 @@ const ButtonAvatar: React.FC = () => {
     <div className="relative" ref={dropdownRef}>
       <div className="flex items-center justify-center text-center space-x-4 ">
         <div className="flex flex-col text-end ">
-            <p className="text-gray-200">¡Hola, {userData?.user.name} {userData?.user.lastname} {userData?.user.motherLastName}!</p>
+            <p className="text-gray-200">¡Hola, {userData?.userData.nombre}!</p>
         </div>
         <button
           id="dropdownNavbarLink"

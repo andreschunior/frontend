@@ -14,20 +14,20 @@ const DropdownMenu = () => {
   return (
     <div
     id="dropdownNavbar"
-    className="absolute right-0 mt-2 z-10 font-normal bg-white divide-y divide-gray-300 rounded-lg shadow w-auto dark:bg-gray-700 dark:divide-gray-600"
+    className="absolute right-0 mt-2 z-10 font-normal bg-white divide-y divide-gray-300 rounded-lg shadow min-w-64 dark:bg-gray-700 dark:divide-gray-600"
   >
     <div className="py-1">
       <a
         href="#"
         className="block px-4 py-2 text-sm font-[600] text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white pointer-events-none"
       >
-        {userData?.user.name} {userData?.user.lastname} {userData?.user.motherLastName}
+        {userData?.userData.nombre}
       </a>
       <a
         href="#"
         className="block px-4 py-2 text-sm text-gray-700 font-[500] hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white -mt-4 pointer-events-none"
       >
-        <i>{userData?.user.profession}</i>
+        <i>{userData?.userData.email}</i>
       </a>
     </div>
     <ul

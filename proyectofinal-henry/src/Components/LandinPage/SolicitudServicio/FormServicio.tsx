@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { fetchProvincias } from "@/services/relevamientosServices";
+import { fetchProvincias } from "@/services/provincias.services";
+import { RelevamientoData } from "@/types/relevamiento.types";
+import Swal from "sweetalert2";
+import { enviarRelevamiento } from "@/services/relevamientos.services";
 
 interface Localidad {
   id: string;
@@ -21,6 +24,7 @@ export const FormServicio: React.FC = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm();
   const [provincias, setProvincias] = useState<Provincia[]>([]);
   const [selectedProvincia, setSelectedProvincia] = useState<string>("");
@@ -54,20 +58,32 @@ export const FormServicio: React.FC = () => {
       );
       console.log(data); //este console log
 
-      const response = await axios.post("http://localhost:3001/relevamientos", {
+      const relevamientoData: RelevamientoData = {
         nombre: data.nombre,
         email: data.correo,
         telefono: data.telefono,
         razon: data.razon,
         direccion: data.direccion,
-        provincia: provincia ? provincia.nombre : "",
-        localidad: localidad ? localidad.nombre : "",
-      });
-      console.log("Datos enviados con éxito:", response.data);
-      alert("Datos enviados con éxito");
+        provincia: provincia ? provincia.nombre : '',
+        localidad: localidad ? localidad.nombre : '',
+      };
+
+      const response = await enviarRelevamiento(relevamientoData);
+
+      Swal.fire({
+        title: "¡Datos enviados con éxito!",
+        icon: "success",
+        showCancelButton: false,
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Ok"
+      })
+
+      reset();
+      setSelectedProvincia("");
+      setSelectedLocalidad("");
+
     } catch (error) {
       console.error("Error enviando los datos:", error);
-      console.log(data); // Aquí puedes ver los datos que están siendo enviados.
     }
   };
 
