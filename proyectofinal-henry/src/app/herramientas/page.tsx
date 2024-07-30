@@ -12,7 +12,7 @@ import Link from "next/link";
 const Home: React.FC = () => {
   return (
     <>
-    <Navbar />
+      <Navbar />
       <br />
       <br />
       <br />
@@ -20,10 +20,12 @@ const Home: React.FC = () => {
       <TituloPlanesInternet title="Test de Velocidad " />
       <TextoCentral texto="Sigue los siguientes pasos para poder probar tu conexion de internet " />
       <br />
-      <Link href="https://www.nperf.com/es/">
-        <div className="flex justify-center">
-          <BotonPagos Imagen={Boton} />
-        </div>
+      <Link href="https://www.nperf.com/es/" legacyBehavior>
+        <a target="_blank" rel="noopener noreferrer">
+          <div className="flex justify-center">
+            <BotonPagos Imagen={Boton} />
+          </div>
+        </a>
       </Link>
       <br />
       <TituloPlanesInternet title="¿Qué debo hacer?" />
