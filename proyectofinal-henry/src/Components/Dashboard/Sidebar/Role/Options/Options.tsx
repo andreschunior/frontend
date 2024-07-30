@@ -1,6 +1,6 @@
 "use client";
 import { useSidebarContext } from '@/context/SidebarContext';
-import { OptionType } from '@/types/types';
+import { OptionType } from '@/types/roles.types';
 import Link from 'next/link';
 import React from 'react';
 import SubOptions from './SubOptions/SubOptions';

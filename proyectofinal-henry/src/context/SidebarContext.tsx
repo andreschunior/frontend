@@ -1,5 +1,5 @@
 'use client'
-import { IProviderProps, ISidebarContextProps } from '@/types/types';
+import { IProviderProps, ISidebarContextProps } from '@/types/context.types';
 import React, { createContext, useContext, useState } from 'react';
 
 const SidebarContext = createContext<ISidebarContextProps>({

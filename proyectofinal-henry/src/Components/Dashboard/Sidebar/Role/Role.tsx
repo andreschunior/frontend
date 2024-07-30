@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSidebarContext } from "@/context/SidebarContext";
 import Options from "./Options/Options";
-import { RoleProps } from '@/types/types';
+import { RoleProps } from '@/types/roles.types';
 import Link from 'next/link';
 
 const transformString = (str: string) => {

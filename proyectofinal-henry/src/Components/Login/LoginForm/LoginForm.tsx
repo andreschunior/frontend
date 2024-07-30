@@ -1,9 +1,8 @@
 'use client'
 import { useAuth } from '@/context/AuthContext';
-import { userdataMock } from '@/helpers/userMock';
 import { validateLogin } from '@/helpers/validateLogin';
 import { loginSesion, loginUser } from '@/services/user.services';
-import { IToken, IUserSession } from '@/types/types';
+import { ITokenSession, IUserSession } from '@/types/login.types';
 import Link from 'next/link';
 import React, { useState } from 'react'
 import Swal from 'sweetalert2';
@@ -12,19 +11,19 @@ const LoginForm = () => {
     const { login } = useAuth();
 
 	const [formData, setFormData] = useState({
-		username: '',
+		email: '',
 		password: '',
 	  });
 
 	const [errors, setErrors] = useState({
-		username: '',    
+		email: '',    
 		password: '',   
 	  });  
 	  
 	  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 		let updatedValue = value;
-		if (name === 'username') updatedValue = value.toLowerCase();
+		//if (name === 'email') updatedValue = value.toLowerCase();
 		setFormData({ ...formData, [name]: updatedValue });
 	
 		const fieldErrors = validateLogin({ ...formData, [name]: value });
@@ -35,30 +34,28 @@ const LoginForm = () => {
 		e.preventDefault();
 
 			try{
+				const tokenData: ITokenSession = await loginSesion(formData);
+                const { token } = tokenData
+                if (token){
+				setFormData({ email: '', password: ''});
+				const userData: IUserSession = await loginUser(tokenData.user.id, tokenData.token);
+				if (userData) {
+                login({ tokenData,  userData}); 
 
-                //const res: IToken = await loginSesion(formData);
-                //const { token } = res
-               //if (token){
-				setFormData({ username: '', password: ''});
-				//const user: IUserSession = await loginUser(formData.username);
-        const user: IUserSession = userdataMock[0]
-				if (user) {
-                // login({ token,  user}); 
-                 login({ token:"qwewtyhghgh",  user});
                 Swal.fire({
                   title: "¡Acceso exitoso!",
                   html: `  <h1 style="color:gray; font-size:25px; font-weight: 500;" > Bienvenido(a):</h1>
-				  		   <p style="margin-top:10px">${user.email}</p> 
-                           <p style="font-size:20px">${user.name} ${user.lastname} ${user.motherLastName}</p>	
+				  		   <p style="margin-top:10px">${userData.email}</p> 
+                           <p style="font-size:20px">${userData.nombre} </p>	
                    `,
                   icon: "success",
                   showCancelButton: false,
                   confirmButtonColor: "#3085d6",
-                  confirmButtonText: "Ok"
+				  confirmButtonText: "Ok"
                 })
 				}
               }
-        //  } 
+          } 
           catch (err: any) {
               const errorMessage = err.message;
               Swal.fire({
@@ -77,12 +74,12 @@ const LoginForm = () => {
 			  <input
                 className=' w-11/12 h-10 bg-gray-300 justify-center flex p-4 mt-6 outline-none rounded-md text-sm placeholder-gray-700'
 				type="text"
-				name="username"
+				name="email"
 				placeholder="Usuario"
-				value={formData.username}
+				value={formData.email}
 				onChange={handleChange}
 			  />
-				{errors.username  && <p className=" text-red-700 text-sm pl-4 fixed italic whitespace-pre-line"> {errors.username} </p>}
+				{errors.email  && <p className=" text-red-700 text-sm pl-4 fixed italic whitespace-pre-line"> {errors.email} </p>}
 			  <input
                 className=' w-11/12 h-10 bg-gray-300 justify-center flex p-4 mt-6 outline-none rounded-md text-sm placeholder-gray-700'
 				type="password"

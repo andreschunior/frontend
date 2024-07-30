@@ -1,5 +1,5 @@
 import { useSidebarContext } from '@/context/SidebarContext';
-import { SubOptionType } from '@/types/types';
+import { SubOptionType } from '@/types/roles.types';
 import Link from 'next/link';
 import React from 'react';
 

@@ -1,4 +1,5 @@
 import axios from 'axios';
+const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
 interface Localidad {
     id: string;
@@ -13,7 +14,7 @@ interface Localidad {
   
 export async function fetchProvincias(): Promise<Provincia[]> {
   try {
-    const response = await axios.get<Provincia[]>('http://localhost:3001/provincias');
+    const response = await axios.get<Provincia[]>(`${apiURL}/provincias`);
     console.log(response.data);
     return response.data;
   } catch (error) {

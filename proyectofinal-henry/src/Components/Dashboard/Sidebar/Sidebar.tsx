@@ -9,11 +9,12 @@ import { useSidebarContext } from "@/context/SidebarContext";
 import { useAuth } from "@/context/AuthContext";
 import Role from "./Role/Role";
 import { useDarkContext } from "@/context/DarkContext";
+import { sidebarOptionsAdmin, sidebarOptionsUser } from "@/helpers/sidebarOptions";
 
 const SideBar = () => {
     const { userData } = useAuth();
     const { btnFixed, isExpanded, sidebarExpand } = useSidebarContext();
-    const roles = userData?.user.roles;
+    const roles = userData?.tokenData.user.roles;
     const { darkMode } = useDarkContext();
 
     const handleMouseOver = () => {
@@ -35,9 +36,15 @@ const SideBar = () => {
                 <ButtonLogo />
                 <ul className="mt-28">
                     <Home />
-                    {roles && roles.map((role, roleIndex) => (
+                    {roles?.includes("admin") ? 
+                        sidebarOptionsAdmin.map((role, roleIndex) => (
                         <Role key={roleIndex} role={role} />
-                    ))}
+                        ))
+                    : 
+                        sidebarOptionsUser.map((role, roleIndex) => (
+                        <Role key={roleIndex} role={role} />
+                        ))
+                    }
                 </ul>
                 <SignOff />
             </aside>

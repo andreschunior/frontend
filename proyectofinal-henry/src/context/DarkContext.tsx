@@ -1,5 +1,5 @@
 'use client'
-import { IDarkContextProps, IProviderProps } from '@/types/types';
+import { IDarkContextProps, IProviderProps } from '@/types/context.types';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from './AuthContext';
 

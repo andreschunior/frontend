@@ -1,8 +1,9 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { IAuthContextProps, IProviderProps, IUserData } from "@/types/types";
+import { IAuthContextProps, IProviderProps } from "@/types/context.types";
 import { useRouter } from "next/navigation";
 import { destroyCookie, setCookie } from "nookies";
+import { IUserData } from "@/types/login.types";
 
 const AuthContext = createContext<IAuthContextProps>({
   userData: null,
@@ -15,8 +16,8 @@ export const AuthProvider: React.FC<IProviderProps> = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (userData) {
-      setCookie(null, "authToken", userData.token, {
+    if (userData && userData.tokenData) {
+      setCookie(null, "authToken", userData.tokenData.token, {
         maxAge: 30 * 24 * 60 * 60,
         path: "/",
       });

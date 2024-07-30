@@ -2,7 +2,6 @@
 import { useSidebarContext } from "@/context/SidebarContext";
 import React from "react";
 import Loading from "@/Components/Dashboard/Loading/Loading";
-import Request from "@/Components/Dashboard/Main/Requests/Requests";
 
 const Home = () => {
   const { btnFixed } = useSidebarContext();
