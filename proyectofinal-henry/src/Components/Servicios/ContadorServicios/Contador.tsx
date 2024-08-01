@@ -3,10 +3,15 @@ import React, { useEffect, useState } from "react";
 
 interface AnimatedNumberProps {
   endValue: number;
-  name: string;
+  name?: string;
+  gradiente?: string;
 }
 
-export const Contador: React.FC<AnimatedNumberProps> = ({ endValue, name }) => {
+export const Contador: React.FC<AnimatedNumberProps> = ({
+  endValue,
+  name,
+  gradiente,
+}) => {
   const [counter, setCounter] = useState<number>(0);
 
   useEffect(() => {
@@ -31,7 +36,9 @@ export const Contador: React.FC<AnimatedNumberProps> = ({ endValue, name }) => {
   }, [endValue]);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gradient-to-r from-sky-400 via-blue-600 to-indigo-700 w-5/6 p-4 rounded-lg shadow-md">
+    <div
+      className={`flex flex-col items-center justify-center w-5/6 p-4 rounded-lg shadow-md ${gradiente}`}
+    >
       <h1 className="text-6xl text-white mb-5">{name}</h1>
       <div className="border-t-2 border-white my-4 w-full"> </div>
       <h1 className="text-8xl text-white mb-5">{counter}</h1>
