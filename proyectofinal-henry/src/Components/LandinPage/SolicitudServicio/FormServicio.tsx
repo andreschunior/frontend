@@ -56,7 +56,7 @@ export const FormServicio: React.FC = () => {
       const localidad = localidadesDisponibles.find(
         (l) => l.id === selectedLocalidad
       );
-      console.log(data); //este console log
+      console.log(data);
 
       const relevamientoData: RelevamientoData = {
         nombre: data.nombre,
@@ -64,8 +64,8 @@ export const FormServicio: React.FC = () => {
         telefono: data.telefono,
         razon: data.razon,
         direccion: data.direccion,
-        provincia: provincia ? provincia.nombre : '',
-        localidad: localidad ? localidad.nombre : '',
+        provincia: provincia ? provincia.nombre : "",
+        localidad: localidad ? localidad.nombre : "",
       };
 
       const response = await enviarRelevamiento(relevamientoData);
@@ -75,13 +75,12 @@ export const FormServicio: React.FC = () => {
         icon: "success",
         showCancelButton: false,
         confirmButtonColor: "#3085d6",
-        confirmButtonText: "Ok"
-      })
+        confirmButtonText: "Ok",
+      });
 
       reset();
       setSelectedProvincia("");
       setSelectedLocalidad("");
-
     } catch (error) {
       console.error("Error enviando los datos:", error);
     }

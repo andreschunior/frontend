@@ -1,5 +1,6 @@
 import React from "react";
 import { FormServicio } from "./FormServicio";
+import { Mapa } from "./Mapa";
 
 export const Seccion: React.FC = () => {
   return (
@@ -20,6 +21,18 @@ export const Seccion: React.FC = () => {
             className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 mt-5"
           >
             Contactanos
+          </button>
+          <br />
+          <h1 className="text-white text-4xl mt-10 lg:mt-0">
+            Busca tus coordenadas
+          </h1>
+          <br />
+          <Mapa />
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 mt-5"
+          >
+            Coordenadas
           </button>
         </div>
         <div className="lg:w-1/2 flex justify-center lg:justify-end mt-10 lg:mt-0">

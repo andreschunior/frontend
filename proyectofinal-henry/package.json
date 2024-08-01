@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.19.3",
     "axios": "^1.7.2",
     "cors": "^2.8.5",
     "flowbite": "^2.4.1",
