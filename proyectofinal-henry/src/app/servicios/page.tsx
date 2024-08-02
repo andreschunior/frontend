@@ -16,7 +16,7 @@ const page = () => {
       <br />
 
       <TituloPlanesInternet title="Conoce Nuestros Planes de Internet" />
-      <hr className="border-white my-4 w-full" />
+
       <TituloPlanesInternet title="Planes Hogar" />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 ">

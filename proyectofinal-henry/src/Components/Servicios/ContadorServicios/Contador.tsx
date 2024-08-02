@@ -37,7 +37,7 @@ export const Contador: React.FC<AnimatedNumberProps> = ({
 
   return (
     <div
-      className={`flex flex-col items-center justify-center w-5/6 p-4 rounded-lg shadow-md ${gradiente}`}
+      className={`flex flex-col items-center justify-center w-5/6 p-4 rounded-xl shadow-md ${gradiente}`}
     >
       <h1 className="text-6xl text-white mb-5">{name}</h1>
       <div className="border-t-2 border-white my-4 w-full"> </div>
