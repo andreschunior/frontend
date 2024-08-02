@@ -25,6 +25,7 @@ export const FormServicio: React.FC = () => {
     watch,
     formState: { errors },
     reset,
+    trigger,
   } = useForm();
   const [provincias, setProvincias] = useState<Provincia[]>([]);
   const [selectedProvincia, setSelectedProvincia] = useState<string>("");
@@ -32,6 +33,12 @@ export const FormServicio: React.FC = () => {
   const [localidadesDisponibles, setLocalidadesDisponibles] = useState<
     Localidad[]
   >([]);
+
+  const nombre = watch("nombre");
+  const correo = watch("correo");
+  const telefono = watch("telefono");
+  const direccion = watch("direccion");
+  const razon = watch("razon");
 
   useEffect(() => {
     async function loadProvincias() {
@@ -49,6 +56,26 @@ export const FormServicio: React.FC = () => {
       setLocalidadesDisponibles([]);
     }
   }, [selectedProvincia, provincias]);
+
+  useEffect(() => {
+    trigger("nombre");
+  }, [nombre, trigger]);
+
+  useEffect(() => {
+    trigger("correo");
+  }, [correo, trigger]);
+
+  useEffect(() => {
+    trigger("telefono");
+  }, [telefono, trigger]);
+
+  useEffect(() => {
+    trigger("direccion");
+  }, [direccion, trigger]);
+
+  useEffect(() => {
+    trigger("razon");
+  }, [razon, trigger]);
 
   const onSubmit = async (data: any) => {
     try {
@@ -101,7 +128,11 @@ export const FormServicio: React.FC = () => {
             type="text"
             id="nombre"
             className="w-full p-2 border border-gray-300 rounded-md"
-            {...register("nombre", { required: true, maxLength: 50 })}
+            {...register("nombre", {
+              required: true,
+              maxLength: 50,
+              pattern: /^[a-zA-Z\s]*$/,
+            })}
           />
           {errors.nombre && (
             <p className="text-red-500">
@@ -119,7 +150,7 @@ export const FormServicio: React.FC = () => {
             className="w-full p-2 border border-gray-300 rounded-md"
             {...register("correo", {
               required: true,
-              maxLength: 100,
+              maxLength: 50,
               pattern: /^\S+@\S+$/i,
             })}
           />
@@ -140,12 +171,14 @@ export const FormServicio: React.FC = () => {
             {...register("telefono", {
               required: true,
               maxLength: 15,
+              minLength: 7,
               pattern: /^[0-9]+$/,
             })}
           />
           {errors.telefono && (
             <p className="text-red-500">
-              Teléfono es requerido y debe ser un número válido
+              Teléfono es requerido, debe ser un número válido y tener al menos
+              7 digitos
             </p>
           )}
         </div>
