@@ -3,6 +3,7 @@ import React from "react";
 import axios from "axios";
 import { RelevamientoData } from "@/types/relevamiento.types";
 import { fetchRelevamientos } from "@/services/relevamientos.services";
+import Swal from "sweetalert2";
 
 interface Localidad {
   id: string;
@@ -32,10 +33,20 @@ const Relevamientos: React.FC = () => {
     const fetchData = async () => {
       try {
         const dataFromAPI = await fetchRelevamientos(1, 10);
-        console.log(dataFromAPI); //verifico los datos que recibo
+        console.log(dataFromAPI); // verifico los datos que recibo
         setRelevamientos(dataFromAPI);
+
+        if (dataFromAPI.length === 0) {
+          Swal.fire({
+            title: "No hay Solicitudes de Relevamientos",
+            icon: "success",
+            showCancelButton: false,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ok",
+          });
+        }
       } catch (error) {
-        console.error('Error al obtener los datos del endpoint', error);
+        console.error("Error al obtener los datos del endpoint", error);
       }
     };
 
