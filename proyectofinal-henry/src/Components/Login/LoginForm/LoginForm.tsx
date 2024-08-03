@@ -34,11 +34,13 @@ const LoginForm = () => {
 		e.preventDefault();
 
 			try{
-				const tokenData: ITokenSession = await loginSesion(formData);
-                const { token } = tokenData
+				const firstTokenData: ITokenSession = await loginSesion(formData);
+                const { token } = firstTokenData
                 if (token){
 				setFormData({ email: '', password: ''});
-				const userData: IUserSession = await loginUser(tokenData.user.id, tokenData.token);
+				const userData: IUserSession = await loginUser(firstTokenData.user.id, firstTokenData.token);
+
+				const tokenData = {...firstTokenData, keyProperty: formData.password}
 				if (userData) {
                 login({ tokenData,  userData}); 
 

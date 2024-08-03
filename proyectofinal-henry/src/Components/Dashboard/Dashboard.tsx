@@ -5,9 +5,8 @@ import SideBar from './Sidebar/Sidebar'
 import Main from './Main/Main'
 import Notifications from './Notifications/Notifications'
 
-
-
 const Dashboard = ({ page }: { page: string }) => {
+
   return (
     <>
       <div className="flex bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 ">

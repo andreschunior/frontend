@@ -20,6 +20,12 @@ export const sidebarOptionsAdmin = [
                      subOptions: []},    
                     ]
         },
+        {
+            rolName: "Pagos",
+            icon: "M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z",
+            router: true,
+            options:[],
+        }
  ]
 
 
@@ -30,18 +36,18 @@ export const sidebarOptionsAdmin = [
         icon: "m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z",
         router: false,
         options:[
-                {optionName: "1",
+                {optionName: "Cuenta",
                  router: false,   
-                 subOptions: [{subOptionsName: "1", router: true},
-                              {subOptionsName: "2", router: true},
-                              {subOptionsName: "3", router: true}]
+                 subOptions: [{subOptionsName: "Estado de Cuentas", router: true},
+                              {subOptionsName: "Proxima facturación", router: true},
+                              {subOptionsName: "Cambiar de PLAN", router: true}]
                 },    
-                {optionName: "2",
+                {optionName: "Servicios",
                  router: false,   
-                 subOptions: [{subOptionsName: "1", router: true},
-                              {subOptionsName: "2", router: true}]
+                 subOptions: [{subOptionsName: "Servicio Técnico", router: true},
+                              {subOptionsName: "Test de Velocidad", router: true}]
                 }, 
-                {optionName: "3",
+                {optionName: "Actualizacion de Datos",
                  router: true, 
                  subOptions: []},    
                 ]
