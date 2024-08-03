@@ -1,7 +1,14 @@
-import Link from "next/link";
+"use client"
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const InConstruction: React.FC = () => {
+
+  const router = useRouter();
+
+  const goBack = () => {
+    router.back(); 
+  };
   return (
     <div className="flex flex-col mt-[10%]">
       <main className="container mx-auto px-4 py-8 flex flex-col items-center justify-center">
@@ -11,9 +18,12 @@ const InConstruction: React.FC = () => {
         <p className="text-gray-700 mb-4">
           Pronto te sorprenderemos con nuestro nuevo módulo.
         </p>
-        <Link href="/" className="text-blue-500">
-          Regresar al inicio
-        </Link>
+        <button
+          onClick={goBack}
+          className="text-blue-500 hover:underline"
+        >
+          Regresar 
+        </button>
       </main>
     </div>
   );

@@ -3,17 +3,20 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { IAuthContextProps, IProviderProps } from "@/types/context.types";
 import { useRouter } from "next/navigation";
 import { destroyCookie, setCookie } from "nookies";
-import { IUserData } from "@/types/login.types";
+import { ILoginProps, ITokenSession, IUserData } from "@/types/login.types";
+import { loginSesion } from "@/services/user.services";
 
 const AuthContext = createContext<IAuthContextProps>({
   userData: null,
   login: () => {},
   logout: () => {},
+  renewToken: () => {},
 });
 
 export const AuthProvider: React.FC<IProviderProps> = ({ children }) => {
   const [userData, setUserData] = useState<IUserData | null>(null);
   const router = useRouter();
+  
 
   useEffect(() => {
     if (userData && userData.tokenData) {
@@ -62,12 +65,33 @@ export const AuthProvider: React.FC<IProviderProps> = ({ children }) => {
     router.push("/");
   };
 
+  const renewToken = async () => {
+    if (userData) {
+      try {
+        const loginProps: ILoginProps = {
+          email: userData.userData.email,
+          password:userData.tokenData.keyProperty
+        }
+        const firstNewTokenData: ITokenSession = await loginSesion(loginProps);
+        const newTokenData = {...firstNewTokenData, keyProperty: loginProps.password}
+        const user: IUserData | null = {tokenData: newTokenData, userData: userData.userData}
+        setUserData(user);  
+        window.location.reload();
+      } catch (error) {
+        console.error("Error renovando el token:", error);
+        logout();
+      }
+    }
+  };
+
+
   return (
     <AuthContext.Provider
       value={{
         userData,
         login,
         logout,
+        renewToken,
       }}
     >
       {children}

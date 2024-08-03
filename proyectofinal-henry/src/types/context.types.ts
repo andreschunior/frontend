@@ -9,6 +9,7 @@ import { IUserData } from "./login.types";
             userData: IUserData | null;
             login: (userData: IUserData) => void;
             logout: (userData: IUserData | null) => void;
+            renewToken: (userData: IUserData | null) => void;
           }
        
 

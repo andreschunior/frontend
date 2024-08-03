@@ -21,6 +21,7 @@ export interface ITokenSession {
             nombre: string;
             roles: string[];
           };
+      keyProperty: string;    
       }
 
       export interface IUserSession {
