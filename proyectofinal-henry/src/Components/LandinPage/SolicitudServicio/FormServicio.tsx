@@ -83,7 +83,6 @@ export const FormServicio: React.FC = () => {
       const localidad = localidadesDisponibles.find(
         (l) => l.id === selectedLocalidad
       );
-      console.log(data);
 
       const relevamientoData: RelevamientoData = {
         nombre: data.nombre,

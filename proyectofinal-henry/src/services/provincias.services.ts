@@ -15,7 +15,7 @@ interface Localidad {
 export async function fetchProvincias(): Promise<Provincia[]> {
   try {
     const response = await axios.get<Provincia[]>(`${apiURL}/provincias`);
-    console.log(response.data);
+   
     return response.data;
   } catch (error) {
     console.error('Error al obtener las provincias:', error);
