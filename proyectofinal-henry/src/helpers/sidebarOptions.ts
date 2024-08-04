@@ -17,7 +17,13 @@ export const sidebarOptionsAdmin = [
                     }, 
                     {optionName: "Servicios",
                      router: true, 
-                     subOptions: []},    
+                     subOptions: []},  
+                     {optionName: "Equipos",
+                        router: false,   
+                        subOptions: [{subOptionsName: "Equipos", router: true},
+                                     {subOptionsName: "Agregar Equipo", router: true}]
+                       }, 
+                     
                     ]
         },
         {

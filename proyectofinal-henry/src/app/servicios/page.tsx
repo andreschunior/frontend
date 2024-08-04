@@ -1,4 +1,3 @@
-import InConstruction from "@/Components/InConstruction/InConstruction";
 import { Navbar } from "@/Components/LandinPage/Navbar";
 import { TituloPlanesInternet } from "@/Components/LandinPage/PlanesDeInternet/Titulo";
 import { Contador } from "@/Components/Servicios/ContadorServicios/Contador";
@@ -70,6 +69,7 @@ const page = () => {
           />
         </div>
       </div>
+      <br />
     </>
   );
 };
