@@ -2,7 +2,6 @@
 import React from "react";
 import EquiposCard from "./EquiposCard";
 import { useSidebarContext } from "@/context/SidebarContext";
-import CrearEquipoFormulario from "./CreacionDeEquipos";
 
 const Equipos: React.FC = () => {
   const { btnFixed } = useSidebarContext();
@@ -15,7 +14,6 @@ const Equipos: React.FC = () => {
         }`}
       >
         <EquiposCard />
-        <CrearEquipoFormulario />
       </div>
     </>
   );
