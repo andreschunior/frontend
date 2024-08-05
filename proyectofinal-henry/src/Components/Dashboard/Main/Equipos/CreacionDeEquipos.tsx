@@ -1,10 +1,12 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import Equipos from "@/types/Equipos.types";
+import { useAuth } from "@/context/AuthContext";
+import { AddEquipo } from "@/services/Equipos.services";
 
 const CrearEquipoFormulario: React.FC = () => {
+  const { userData } = useAuth();
   const {
     register,
     handleSubmit,
@@ -12,13 +14,18 @@ const CrearEquipoFormulario: React.FC = () => {
   } = useForm<Equipos>();
 
   const onSubmit = async (data: Equipos) => {
+    if (!userData || !userData.tokenData || !userData.tokenData.token) {
+      console.error("Token no disponible");
+      return;
+    }
+
+    const token = userData.tokenData.token;
+
     try {
-      await axios.post("http://localhost:3000/equipos", data);
-      // Aquí podrías agregar lógica para mostrar un mensaje de éxito o redirigir al usuario
+      await AddEquipo(token, data);
       alert("Equipo creado exitosamente");
     } catch (error) {
       console.error("Error al crear el equipo:", error);
-      // Aquí podrías agregar lógica para mostrar un mensaje de error
     }
   };
 

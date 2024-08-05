@@ -1,31 +1,35 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Equipo from "../../../../../pics/equipoImagen.png";
-import equiposMock from "./equiposMock";
 import Equipos from "@/types/Equipos.types";
 import EquiposModal from "./ModalDetalleEquipos";
+import { useAuth } from "@/context/AuthContext";
+import { fetchEquipos } from "@/services/Equipos.services";
 
 export const EquiposCard: React.FC = () => {
+  const { userData } = useAuth();
   const [equipos, setEquipos] = useState<Equipos[]>([]);
   const [selectedEquipo, setSelectedEquipo] = useState<Equipos | null>(null);
 
   useEffect(() => {
-    const fetchEquipos = async () => {
+    const getEquipos = async () => {
+      console.log("UserData:", userData);
+      if (!userData || !userData.tokenData || !userData.tokenData.token) {
+        console.error("Token no disponible");
+        return;
+      }
+
+      const token = userData.tokenData.token;
+      console.log("Token:", token);
       try {
-        const response = await axios.get(
-          "http://localhost:3000/equipos?page=1&limit=5"
-        );
-        setEquipos(response.data);
+        const equiposData = await fetchEquipos(token);
+        setEquipos(equiposData);
       } catch (error) {
-        // Simulamos la carga de datos desde una API
-        setEquipos(equiposMock);
-        // console.error("Error al obtener los datos:", error);
+        console.error("Error al obtener los datos:", error);
       }
     };
-
-    fetchEquipos();
-  }, []);
+    getEquipos();
+  }, [userData]);
 
   return (
     <>
