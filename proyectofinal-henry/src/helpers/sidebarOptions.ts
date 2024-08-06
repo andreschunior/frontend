@@ -6,14 +6,14 @@ export const sidebarOptionsAdmin = [
             options:[
                     {optionName: "Usuarios",
                      router: false,   
-                     subOptions: [{subOptionsName: "Ver todos los usuarios", router: true},
-                                  {subOptionsName: "Usuarios atendidos", router: true},
-                                  {subOptionsName: "Usuarios no atendidos", router: true}]
+                     subOptions: [{subOptionsName: "Ver todos los usuarios", router: true}, // si
+                                  {subOptionsName: "Usuarios atendidos", router: true}, // 
+                                  {subOptionsName: "Usuarios no atendidos", router: true}] //
                     },    
                     {optionName: "Solicitudes",
                      router: false,   
                      subOptions: [{subOptionsName: "Relevamientos", router: true},
-                                  {subOptionsName: "Solicitudes rechazadas", router: true}]
+                                  {subOptionsName: "Solicitudes rechazadas", router: true}]   // NO
                     }, 
                     {optionName: "Servicios",
                      router: true, 
@@ -58,16 +58,35 @@ export const sidebarOptionsAdmin = [
                  router: false,   
                  subOptions: [{subOptionsName: "Estado de Cuentas", router: true},
                               {subOptionsName: "Proxima facturación", router: true},
-                              {subOptionsName: "Cambiar de PLAN", router: true}]
+                              {subOptionsName: "Cambiar de PLAN", router: true}] //solicitud cambio de plan
                 },    
                 {optionName: "Servicios",
                  router: false,   
-                 subOptions: [{subOptionsName: "Servicio Técnico", router: true},
+                 subOptions: [{subOptionsName: "Servicio Técnico", router: true}, //solicitud servicio tecnico
                               {subOptionsName: "Test de Velocidad", router: true}]
                 }, 
-                {optionName: "Actualizacion de Datos",
+                {optionName: "Actualizacion de Datos", //solicitud actualizacion de Datos
                  router: true, 
-                 subOptions: []},    
+                 subOptions: []},   
+                 {optionName: "Dar de baja", //solicitud de baja
+                    router: true, 
+                    subOptions: []}, 
+                ]
+    },
+    {
+        rolName: "Mis Facturas",
+        icon: "m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z",
+        router: false,
+        options:[
+               
+                 {optionName: "Facturas Pendientes",
+                    router: true,   
+                    subOptions: []
+                   }, 
+                   { optionName: "Pagar",
+                    router: true,   
+                    subOptions:[]}
+                 
                 ]
     },
 ]

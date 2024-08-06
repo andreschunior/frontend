@@ -31,9 +31,11 @@ export const DarkProvider: React.FC<IProviderProps> = ({ children }) => {
       if (!darkMode) {
         document.documentElement.classList.add('dark');
         localStorage.setItem('darkMode', 'true');
+        console.log("modo dark activado");
       } else {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('darkMode', 'false');
+        console.log("modo dark desactivado");
       }
     };
 

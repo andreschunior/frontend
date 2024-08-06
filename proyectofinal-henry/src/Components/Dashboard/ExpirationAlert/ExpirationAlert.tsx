@@ -7,23 +7,30 @@ const ExpirationAlert = () => {
     const [secondsLeft, setSecondsLeft] = useState<number>(9999);
     const { userData, renewToken, logout } = useAuth(); 
 
-      const parseDate = (dateStr: string): Date => {
-        let [datePart, timePart] = dateStr.split(', ');
-        let [day, month, year] = datePart.split('/').map(Number);
-        let [time, period] = timePart.split(' ');
-        let [hours, minutes, seconds] = time.split(':').map(Number);
-        if (period === 'PM' && hours < 12) hours += 12;
-        if (period === 'AM' && hours === 12) hours = 0;
-        const isoString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        return new Date(isoString);
-    };
+    //   const parseDate = (dateStr: string): Date => {
+    //     let [datePart, timePart] = dateStr.split(', ');
+    //     let [day, month, year] = datePart.split('/').map(Number);
+    //     let [time, period] = timePart.split(' ');
+    //     let [hours, minutes, seconds] = time.split(':').map(Number);
+    //     if (period === 'PM' && hours < 12) hours += 12;
+    //     if (period === 'AM' && hours === 12) hours = 0;
+    //     const isoString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    //     return new Date(isoString);
+    // };
     
   useEffect(() => {
     if (userData && userData.tokenData?.expiresAt) {
-    const expirationTime = parseDate(userData.tokenData.expiresAt);
-      
+   const expiration = Number(userData.tokenData.expiresAt);
+   const expirationTime = new Date(expiration * 1000);
+
+    // console.log("fecha directa Back: ", expirationTime);
+    // console.log("fecha local: ", new Date().getTime());
+    // console.log((expirationTime.getTime() - new Date().getTime()) /1000 );
+
     const intervalId = setInterval(() => {
+    
         const newTimeLeft = (expirationTime.getTime() - new Date().getTime()) / 1000;
+        //console.log("rango aceptado: ", newTimeLeft);
         if ( newTimeLeft > 0) { //dentro del periodo valido
           setSecondsLeft(Math.floor(newTimeLeft));
         } else if (newTimeLeft <= 0) { // fuera del periodo de vencimiento
