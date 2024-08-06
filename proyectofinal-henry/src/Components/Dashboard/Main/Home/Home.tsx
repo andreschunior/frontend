@@ -2,6 +2,7 @@
 import { useSidebarContext } from "@/context/SidebarContext";
 import React from "react";
 import Loading from "@/Components/Dashboard/Loading/Loading";
+import FacturasList from "../Facturas/FacturasCard";
 
 const Home = () => {
   const { btnFixed } = useSidebarContext();
