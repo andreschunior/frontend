@@ -45,6 +45,8 @@ export interface ITokenSession {
             emailInstal: string;
             observaciones: string;
             senalConexion: string;
+            facturas: string[];
+            imgUrl: string;
         }
 
 export interface IUserData {

@@ -5,6 +5,7 @@ import { RelevamientoData } from "@/types/relevamiento.types";
 import { fetchRelevamientos } from "@/services/relevamientos.services";
 import Swal from "sweetalert2";
 import ModalRelevamientos from "./ModalRelevamientos/ModalRelevamientos";
+import { useSidebarContext } from "@/context/SidebarContext";
 
 interface Localidad {
   id: string;
@@ -31,6 +32,8 @@ const Relevamientos: React.FC = () => {
   const [relevamientos, setRelevamientos] = React.useState<Relevamiento[]>([]);
   const [selectedRelevamiento, setSelectedRelevamiento] = React.useState<Relevamiento | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const { btnFixed } = useSidebarContext();
+ 
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -68,7 +71,14 @@ const Relevamientos: React.FC = () => {
 
   return (
     <>
-      <div className="p-8 max-w-7xl mx-auto mt-24">
+     <div
+    className={`p-3 mt-20 transition-all duration-1000  ${
+      btnFixed ? "ml-[270px]" : "ml-24"
+    }`}
+  >
+
+ 
+      <div className="p-8 max-w-7xl mx-auto mt-4">
         <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-1  lg:grid-cols-3 sm:ml-4 md:ml-4 lg:ml-12">
           {relevamientos.map((relevamiento) => (
             <div
@@ -125,6 +135,7 @@ const Relevamientos: React.FC = () => {
           closeModal={closeModal} 
         />
       )}
+       </div>
     </>
   );
 };
