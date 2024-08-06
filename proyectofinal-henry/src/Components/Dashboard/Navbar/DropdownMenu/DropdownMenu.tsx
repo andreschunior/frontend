@@ -49,7 +49,7 @@ const DropdownMenu = () => {
       </li>
       <li>
         <Link
-          href="/dashboard/userProfile"
+          href="/dashboard/miperfil"
           className="flex items-center gap-7 px-6 py-3 mb-0 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-600  dark:hover:text-white"
         >
            <svg className="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
