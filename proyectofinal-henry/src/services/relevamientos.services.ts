@@ -22,3 +22,26 @@ export async function enviarRelevamiento(data: RelevamientoData): Promise<any> {
       throw error;
     }
   };
+
+  export async function actualizarRelevamiento(id: string, data: Partial<RelevamientoData>): Promise<any> {
+    try {
+      const response = await axios.put(`${apiURL}/relevamientos/${id}`, data);
+      console.log('Datos actualizados con éxito:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error actualizando los datos:', error);
+      throw error;
+    }
+  }
+  
+  // Función para crear un nuevo usuario
+  export async function crearUsuario(data: { nombre: string; email: string; password: string; }): Promise<any> {
+    try {
+      const response = await axios.post(`${apiURL}/auths/signup`, data);
+      console.log('Usuario creado con éxito:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error creando el usuario:', error);
+      throw error;
+    }
+  }

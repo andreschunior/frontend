@@ -4,6 +4,7 @@ import axios from "axios";
 import { RelevamientoData } from "@/types/relevamiento.types";
 import { fetchRelevamientos } from "@/services/relevamientos.services";
 import Swal from "sweetalert2";
+import ModalRelevamientos from "./ModalRelevamientos/ModalRelevamientos";
 
 interface Localidad {
   id: string;
@@ -28,6 +29,8 @@ interface Relevamiento {
 
 const Relevamientos: React.FC = () => {
   const [relevamientos, setRelevamientos] = React.useState<Relevamiento[]>([]);
+  const [selectedRelevamiento, setSelectedRelevamiento] = React.useState<Relevamiento | null>(null);
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -53,6 +56,16 @@ const Relevamientos: React.FC = () => {
     fetchData();
   }, []);
 
+  const handleCardClick = (relevamiento: Relevamiento) => {
+    setSelectedRelevamiento(relevamiento);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedRelevamiento(null);
+  };
+
   return (
     <>
       <div className="p-8 max-w-7xl mx-auto mt-24">
@@ -60,7 +73,8 @@ const Relevamientos: React.FC = () => {
           {relevamientos.map((relevamiento) => (
             <div
               key={relevamiento.id}
-              className="bg-white shadow-lg rounded-lg p-6 mb-6"
+              className="bg-white shadow-lg rounded-lg p-6 mb-6 cursor-pointer"
+              onClick={() => handleCardClick(relevamiento)}
             >
               <h1 className="text-2xl font-bold mb-4 text-center">
                 Solicitud de Servicios de {relevamiento.nombre}
@@ -105,6 +119,12 @@ const Relevamientos: React.FC = () => {
           ))}
         </div>
       </div>
+      {isModalOpen && selectedRelevamiento && (
+        <ModalRelevamientos 
+          relevamiento={selectedRelevamiento} 
+          closeModal={closeModal} 
+        />
+      )}
     </>
   );
 };
