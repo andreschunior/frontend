@@ -1,16 +1,26 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext'; // Asegúrate de actualizar la ruta al archivo correcto
 import { useSidebarContext } from '@/context/SidebarContext';
+import ModalImagen from './ModalImagen/ModalImagen';
 
 const UserProfile: React.FC = () => {
   const { userData } = useAuth();
   const { btnFixed } = useSidebarContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState("https://via.placeholder.com/150");
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const updateProfileImage = (newImageUrl: string) => {
+    setProfileImage(newImageUrl);
+    closeModal();
+  };
 
   if (!userData) {
     return <div className="text-center text-gray-500">Cargando...</div>;
   }
-
 
   const firstLetterName = (name: string | undefined): string => {
     if (name && name.trim() !== "") return name.trim().charAt(0).toUpperCase();
@@ -41,21 +51,23 @@ const getColorByFirstLetter = (name: string) => {
     >
     <div className="max-w-2xl mx-auto mt-6 bg-white shadow-md rounded-lg p-6">
       <div className="flex gap-4 items-center mb-6">
-      { userData.userData.imgUrl !== "https://exmple-image.webp" ?
 
+      <a onClick={openModal}>
+         {userData.userData.imgUrl !== "https://exmple-image.webp" ?
 
-<img
-    src={userData.userData.imgUrl}
-    alt={userData.userData.nombre}
-    className="w-16 h-16 rounded-full"
-/>
-:
-<button
-className={`rounded-full w-16 h-16 flex items-center justify-center text-center font-[530] ${getColorByFirstLetter(userData.userData.nombre)} text-white`}
->
-<p className="text-[45px] pr-[1px]">{firstLetterName(userData.userData.nombre)}</p>
-</button>
-}
+                <img
+                    src={userData.userData.imgUrl}
+                    alt={userData.userData.nombre}
+                    className="w-16 h-16 rounded-full"
+                />
+                :
+                <button
+                className={`rounded-full w-16 h-16 flex items-center justify-center text-center font-[530] ${getColorByFirstLetter(userData.userData.nombre)} text-white`}
+                >
+                <p className="text-[45px] pr-[1px]">{firstLetterName(userData.userData.nombre)}</p>
+                </button>
+                }
+      </a>
 
         <h1 className="text-xl font-bold">{userData.userData.nombre}</h1>
       </div>
@@ -85,6 +97,11 @@ className={`rounded-full w-16 h-16 flex items-center justify-center text-center 
 
 
     </div>
+
+
+    {isModalOpen && <ModalImagen userId={userData.userData.id} token={userData.tokenData.token} updateProfileImage={updateProfileImage} closeModal={closeModal} />}
+
+
     </div>
   );
 };

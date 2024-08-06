@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext'; // Asegúrate de actualizar la ruta al archivo correcto
-import ModalImagen from '@/Components/Dashboard/UserProfile/ModalImagen/ModalImagen';
+import ModalImagen from '../Main/Miperfil/ModalImagen/ModalImagen';
+
 
 const UserProfile: React.FC = () => {
   const { userData } = useAuth();
