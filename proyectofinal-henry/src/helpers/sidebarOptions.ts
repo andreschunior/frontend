@@ -7,8 +7,9 @@ export const sidebarOptionsAdmin = [
                     {optionName: "Usuarios",
                      router: false,   
                      subOptions: [{subOptionsName: "Ver todos los usuarios", router: true}, // si
-                                  {subOptionsName: "Usuarios atendidos", router: true}, // 
-                                  {subOptionsName: "Usuarios no atendidos", router: true}] //
+                                //   {subOptionsName: "Usuarios atendidos", router: true}, // 
+                                //   {subOptionsName: "Usuarios no atendidos", router: true}] 
+                     ]//
                     },    
                     {optionName: "Solicitudes",
                      router: false,   
