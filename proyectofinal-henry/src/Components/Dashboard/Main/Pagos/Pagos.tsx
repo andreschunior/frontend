@@ -16,7 +16,8 @@ const Pagos = () => {
 
 
             {/*  aqui tu codigo de pruebas... */}
-        
+
+
       </div>
  
   )
