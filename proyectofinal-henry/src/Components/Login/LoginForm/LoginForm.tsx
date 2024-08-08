@@ -70,7 +70,7 @@ const LoginForm = () => {
 
 
      return (
-		<div className=" mt-[30%] w-96 h-64 overflow-hidden bg-gray-100 rounded-xl shadow-2xl p-4 ">
+		<div className=" mt-[30%] w-96 h-80 overflow-hidden bg-gray-100 rounded-xl shadow-2xl p-4 ">
 		  <div>
 			<form onSubmit={handleSubmit} className='px-5'>
 			  <input
@@ -95,8 +95,18 @@ const LoginForm = () => {
 			  <button disabled={Object.values(errors).some(error =>  error !== undefined)} className={Object.values(errors).some(error =>  error !== undefined) ? "w-11/12 h-10 mt-6 bg-gray-400 justify-center block text-gray-100 text-sm rounded-md ease-in cursor-not-allowed" : "w-11/12 h-10 mt-6 bg-blue-700 justify-center block text-gray-100 text-sm rounded-md ease-in cursor-pointer"} type="submit">INICIAR SESIÓN</button>
 			</form>
             <div className='mt-1'>
-            <Link href="/" className='text-gray-500 text-sm'>¿Olvidaste tu contraseña?</Link>
+            <Link href="/" className='text-gray-500 text-sm'>¿Olvidaste tu contraseña?</Link>	
             </div>
+			<div className='mt-1 p-2'>
+			<button  className={"w-11/12 h-10 mt-6 bg-gray-300 justify-center block text-gray-800 text-sm rounded-md ease-in cursor-pointer"} type="submit">
+			<img className="" src="/frontend/proyectofinal-henry/public/images/iconGoogle.png" alt="G" />
+			Iniciar sesión con Google</button>
+            </div>
+
+			
+			
+
+		
 		  </div>
 		</div>
 	  )

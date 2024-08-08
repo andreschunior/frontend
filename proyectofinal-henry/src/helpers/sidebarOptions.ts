@@ -71,7 +71,7 @@ export const sidebarOptionsAdmin = [
                  router: false,   
                  subOptions: [{subOptionsName: "Estado de Cuentas", router: true},
                               {subOptionsName: "Proxima facturación", router: true},
-                              {subOptionsName: "Cambiar de PLAN", router: true}] //solicitud cambio de plan
+                              {subOptionsName: "Mi Plan", router: true}] //solicitud cambio de plan
                 },    
                 {optionName: "Servicios",
                  router: false,   

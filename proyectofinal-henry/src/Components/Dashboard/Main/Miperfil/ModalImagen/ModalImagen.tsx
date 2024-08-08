@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '@/context/AuthContext';
 
 interface ModalImagenProps {
   userId: string;
@@ -11,6 +12,7 @@ interface ModalImagenProps {
 
 const ModalImagen: React.FC<ModalImagenProps> = ({ userId, token, updateProfileImage, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+const  {userData} = useAuth();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -25,16 +27,17 @@ const ModalImagen: React.FC<ModalImagenProps> = ({ userId, token, updateProfileI
     formData.append('image', selectedFile);
 
     try {
-      const response = await axios.post(`/user/uploadImage/${userId}`, formData, {
+      const response = await axios.post(`http://localhost:3000/users/uploadImage/${userId}`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
         }
       });
 
-      if (response.status === 200) {
-        updateProfileImage(response.data.imgUrl); // Asumiendo que la URL de la nueva imagen está en `response.data.imageUrl`
+      if (response.status === 201) {
+        updateProfileImage(response.data.imgUrl);
       } else {
+        console.log(token, userId)
         console.error('Error uploading image:', response.statusText);
       }
     } catch (error) {
