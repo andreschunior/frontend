@@ -37,7 +37,7 @@ const Footer = () => {
             </div>
             <div>
               <p className="mb-1 text-base font-semibold leading-none text-gray-900 dark:text-white">
-                <a href="#" className="hover:underline">Empresa Internet S.A.</a>
+                <a href="#" className="hover:underline">UltraNet S.A.</a>
               </p>
               <p className=" text-sm font-normal">
                 Proyecto Final
@@ -45,7 +45,7 @@ const Footer = () => {
               <p className="mb-3 text-sm font-normal">
                 Henry Academy
               </p>
-              <p className="text-sm font-semibold">Web Admin ISP</p>
+              <p className="text-sm font-semibold">Web Admin - UltraNet</p>
               <p className="mb-4 text-sm">Aplicativo de Gestión de Usuarios</p>
               <ul className="text-sm">
                 <li className="flex items-center mb-2">
@@ -54,7 +54,7 @@ const Footer = () => {
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6.487 1.746c0 4.192 3.592 1.66 4.592 5.754 0 .828 1 1.5 2 1.5s2-.672 2-1.5a1.5 1.5 0 0 1 1.5-1.5h1.5m-16.02.471c4.02 2.248 1.776 4.216 4.878 5.645C10.18 13.61 9 19 9 19m9.366-6h-2.287a3 3 0 0 0-3 3v2m6-8a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                     </svg>
                   </span>
-                  <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">https://WebAdminISP.com</a>
+                  <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">https://ultranet.com</a>
                 </li>
                 <li className="flex items-center mb-2">
                   <span className="me-2 font-semibold text-gray-400">
@@ -62,7 +62,7 @@ const Footer = () => {
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6.487 1.746c0 4.192 3.592 1.66 4.592 5.754 0 .828 1 1.5 2 1.5s2-.672 2-1.5a1.5 1.5 0 0 1 1.5-1.5h1.5m-16.02.471c4.02 2.248 1.776 4.216 4.878 5.645C10.18 13.61 9 19 9 19m9.366-6h-2.287a3 3 0 0 0-3 3v2m6-8a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                     </svg>
                   </span>
-                  <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">administracion@WebAdminISP.com</a>
+                  <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">admin@ultranet.com</a>
                 </li>
                 <li className="flex items-start mb-2">
                   <span className="me-2 font-semibold text-gray-400">
@@ -86,7 +86,7 @@ const Footer = () => {
 
                     <p>&nbsp; 01 701-5500 anexo 7118</p>
               </div>
-              <p className='mt-8'>© 2024 Copyright | WebAdminISP </p>
+              <p className='mt-8'>© 2024 Copyright | UltraNet </p>
             </div>
           </div>
         </div>

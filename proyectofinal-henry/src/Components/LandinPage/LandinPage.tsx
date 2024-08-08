@@ -4,6 +4,7 @@ import { Promo1 } from "./Promo1/page";
 import { PlanesInternet } from "./PlanesDeInternet/page";
 import { Banner } from "./banner/Banner";
 import { Seccion } from "./SolicitudServicio/Seccion";
+import  ChatBotAssistant  from "./ChatBotAssistant/ChatBotAssistant";
 
 const LandingPage = () => {
   return (
@@ -13,6 +14,7 @@ const LandingPage = () => {
       <PlanesInternet />
       <Banner />
       <Seccion />
+      <ChatBotAssistant />
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
       <link
