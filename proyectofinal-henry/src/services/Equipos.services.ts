@@ -2,11 +2,12 @@
 
 import axios from "axios";
 import Equipos from "@/types/Equipos.types";
+const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const fetchEquipos = async (token: string): Promise<Equipos[]> => {
   try {
     const response = await axios.get(
-      "http://localhost:3000/equipos?page=1&limit=5",
+      `${apiURL}/equipos?page=1&limit=5`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -23,7 +24,7 @@ export const fetchEquipos = async (token: string): Promise<Equipos[]> => {
 
 export const AddEquipo = async (token: string, data: Equipos) => {
   try {
-    const response = await axios.post("http://localhost:3000/equipos", data, {
+    const response = await axios.post(`${apiURL}/equipos`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -37,7 +38,7 @@ export const AddEquipo = async (token: string, data: Equipos) => {
 
 export const EditarEquipo = async (id: string, data: Equipos, token: string) => {
   try {
-    const response = await axios.put(`http://localhost:3000/equipos/${id}`, data, {
+    const response = await axios.put(`${apiURL}/equipos/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`, // Incluir el token en los encabezados
       },

@@ -8,13 +8,11 @@ const UserProfile: React.FC = () => {
   const { userData } = useAuth();
   const { btnFixed } = useSidebarContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [profileImage, setProfileImage] = useState("https://via.placeholder.com/150");
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const updateProfileImage = (newImageUrl: string) => {
-    setProfileImage(newImageUrl);
+  const handleCloseModal = () => {
     closeModal();
   };
 
@@ -99,7 +97,7 @@ const getColorByFirstLetter = (name: string) => {
     </div>
 
 
-    {isModalOpen && <ModalImagen userId={userData.userData.id} token={userData.tokenData.token} updateProfileImage={updateProfileImage} closeModal={closeModal} />}
+    {isModalOpen && <ModalImagen userId={userData.userData.id} token={userData.tokenData.token} handleCloseModal={handleCloseModal} closeModal={closeModal} />}
 
 
     </div>

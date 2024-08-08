@@ -1,11 +1,14 @@
 'use client'
 import { useAuth } from '@/context/AuthContext';
 import { validateLogin } from '@/helpers/validateLogin';
-import { loginSesion, loginUser } from '@/services/user.services';
+import { loginSesion, loginSesionGoogle, loginUser } from '@/services/user.services';
 import { ITokenSession, IUserSession } from '@/types/login.types';
 import Link from 'next/link';
 import React, { useState } from 'react'
 import Swal from 'sweetalert2';
+import iconGoogle from "../../../../public/images/iconGoogle.png";
+import Image from 'next/image';
+import axios from 'axios';
 
 const LoginForm = () => {   
     const { login } = useAuth();
@@ -69,6 +72,55 @@ const LoginForm = () => {
           }
 
 
+		  
+		  const handleLoginGoogle = async () => {
+	
+				try{
+					//const firstTokenData: ITokenSession = await loginSesionGoogle();
+			
+					  const res = await fetch(`http://localhost:3000/users/auth0/callback`, {
+						method: 'GET',
+						credentials: 'include',
+						headers: {
+							'Content-Type': 'application/json',
+						  },
+						});
+						console.log("res: ", res)
+					const firstTokenData = await res.json()
+					console.log("firstTokenData: ", firstTokenData);
+					const { token } = firstTokenData
+					if (token){
+					const userData: IUserSession = await loginUser(firstTokenData.user.id, firstTokenData.token);
+	
+					const tokenData = {...firstTokenData, keyProperty: formData.password}
+					if (userData) {
+					login({ tokenData,  userData}); 
+	
+					Swal.fire({
+					  title: "¡Acceso exitoso!",
+					  html: `  <h1 style="color:gray; font-size:25px; font-weight: 500;" > Bienvenido(a):</h1>
+								 <p style="margin-top:10px">${userData.email}</p> 
+							   <p style="font-size:20px">${userData.nombre} </p>	
+					   `,
+					  icon: "success",
+					  showCancelButton: false,
+					  confirmButtonColor: "#3085d6",
+					  confirmButtonText: "Ok"
+					})
+					}
+				  }
+			  } 
+			  catch (err: any) {
+				  const errorMessage = err.message;
+				  Swal.fire({
+					icon: "error",
+					title: "Oops...",
+					text: errorMessage,
+				  });
+				}	
+			  }
+
+
      return (
 		<div className=" mt-[30%] w-96 h-80 overflow-hidden bg-gray-100 rounded-xl shadow-2xl p-4 ">
 		  <div>
@@ -97,10 +149,14 @@ const LoginForm = () => {
             <div className='mt-1'>
             <Link href="/" className='text-gray-500 text-sm'>¿Olvidaste tu contraseña?</Link>	
             </div>
-			<div className='mt-1 p-2'>
-			<button  className={"w-11/12 h-10 mt-6 bg-gray-300 justify-center block text-gray-800 text-sm rounded-md ease-in cursor-pointer"} type="submit">
-			<img className="" src="/frontend/proyectofinal-henry/public/images/iconGoogle.png" alt="G" />
-			Iniciar sesión con Google</button>
+			<div className='mt-1 '>
+				<button 
+					className=" w-10/12 h-10 mt-6 bg-gray-300 flex items-center justify-center text-gray-800 text-sm rounded-3xl ease-in cursor-pointer"
+					onClick={handleLoginGoogle}
+					>
+						<Image className="mr-2" src={iconGoogle} alt="Google Icon" width={20} height={20} />
+						Iniciar sesión con Google
+				</button>
             </div>
 
 			

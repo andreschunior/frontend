@@ -54,7 +54,7 @@ const ButtonAvatar: React.FC = () => {
 
 const getColorByFirstLetter = (name: string) => {
     const firstLetter = firstLetterName(name);
-    return letterColors[firstLetter] || 'bg-gray-500'; // color por defecto si no coincide
+    return letterColors[firstLetter] || 'bg-gray-500'; // color por defecto si no coincide 
 };
 
   return (
@@ -63,15 +63,23 @@ const getColorByFirstLetter = (name: string) => {
         <div className="flex flex-col text-end ">
             <p className="text-gray-200">¡Hola, {userData?.userData.nombre}!</p>
         </div>
-       {userData &&
+        {userData && userData.userData.imgUrl !== "https://exmple-image.webp" 
+        ?
+            <img
+            src={userData.userData.imgUrl}
+            alt={userData.userData.nombre}
+            className="w-12 h-12 rounded-full"
+            onClick={toggleDropdown}
+            />
+        :
         <button
           id="dropdownNavbarLink"
           onClick={toggleDropdown}
-          className={`rounded-full w-12 h-12 flex items-center justify-center text-center font-[530] ${getColorByFirstLetter(userData?.userData.nombre)} text-white`}
-        >
-         
+          className={`rounded-full w-12 h-12 flex items-center justify-center text-center font-[530] ${userData && getColorByFirstLetter(userData.userData.nombre)} text-white`}
+        > 
           <p className="text-3xl pr-[1px]">{firstLetter}</p>
         </button>
+        
       }
       </div>
       {isDropdownOpen && (
