@@ -25,6 +25,23 @@ export async function loginSesion(data: ILoginProps) {
     }
 }
 
+export async function loginSesionGoogle() {
+  try { 
+      const res = await fetch(`${apiURL}/users/auth0/callback`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+      const user = await res.json()
+      if (res.ok) return user;
+      else throw new Error (user?.message);      
+  }
+  catch (error: any){
+      throw new Error (error)
+  }
+}
+
 export async function loginUser(id: string, token: string) {
     try { 
         const res = await fetch(`${apiURL}/users/${id}`, {

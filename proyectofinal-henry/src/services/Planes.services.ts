@@ -1,8 +1,9 @@
 import axios from "axios";
+const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const fetchServicios = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/servicios?page=1&limit=10");
+    const response = await axios.get(`${apiURL}/servicios?page=1&limit=10`);
     return response.data; 
   } catch (error) {
     if (axios.isAxiosError(error)) {

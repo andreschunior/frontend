@@ -4,7 +4,9 @@ import React from 'react'
 
 const page = ({ params }: { params: { slug: string } }) => {
   return (
+    <>
     <Dashboard page={params.slug} />
+    </>
   )
 }
 

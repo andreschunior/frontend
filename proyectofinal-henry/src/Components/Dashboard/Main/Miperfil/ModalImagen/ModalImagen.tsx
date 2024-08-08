@@ -2,17 +2,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '@/context/AuthContext';
+import { fetchImageUpload } from '@/services/uploadImage.services';
+import Swal from 'sweetalert2';
+import { IUserData } from '@/types/login.types';
 
 interface ModalImagenProps {
   userId: string;
   token: string;
-  updateProfileImage: (newImageUrl: string) => void;
+  handleCloseModal: () => void;
   closeModal: () => void;
 }
 
-const ModalImagen: React.FC<ModalImagenProps> = ({ userId, token, updateProfileImage, closeModal }) => {
+const ModalImagen: React.FC<ModalImagenProps> = ({ userId, token, handleCloseModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-const  {userData} = useAuth();
+  const { userData, setUserData } = useAuth();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -21,27 +24,23 @@ const  {userData} = useAuth();
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) return;
-
-    const formData = new FormData();
-    formData.append('image', selectedFile);
-
+    if (!selectedFile) return;   
     try {
-      const response = await axios.post(`http://localhost:3000/users/uploadImage/${userId}`, formData, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      if (response.status === 201) {
-        updateProfileImage(response.data.imgUrl);
+      const response = await fetchImageUpload(userId, token, selectedFile)
+      if (response && userData) {
+        const newUserData = {...userData.userData, imgUrl: response}
+        const user: IUserData | null = {tokenData: userData.tokenData, userData: newUserData}
+        setUserData(user);
+        handleCloseModal();
       } else {
-        console.log(token, userId)
-        console.error('Error uploading image:', response.statusText);
+        console.error(response)
       }
     } catch (error) {
-      console.error('Error uploading image:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error al cargar la imagen",
+        });
     }
   };
 

@@ -7,6 +7,7 @@ import { IUserData } from "./login.types";
 
       export interface IAuthContextProps {
             userData: IUserData | null;
+            setUserData: (userData: IUserData) => void;
             login: (userData: IUserData) => void;
             logout: (userData: IUserData | null) => void;
             renewToken: (userData: IUserData | null) => void;

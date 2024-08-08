@@ -8,6 +8,7 @@ import { loginSesion } from "@/services/user.services";
 
 const AuthContext = createContext<IAuthContextProps>({
   userData: null,
+  setUserData: () => {},
   login: () => {},
   logout: () => {},
   renewToken: () => {},
@@ -84,11 +85,11 @@ export const AuthProvider: React.FC<IProviderProps> = ({ children }) => {
     }
   };
 
-
   return (
     <AuthContext.Provider
       value={{
         userData,
+        setUserData,
         login,
         logout,
         renewToken,

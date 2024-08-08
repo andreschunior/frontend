@@ -8,9 +8,11 @@ import {
 import Factura, { FacturasResponse } from "@/types/factura.types";
 import FacturaDetailModal from "./FacturaDetalles";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const FacturasList: React.FC = () => {
   const { userData } = useAuth();
+  const router = useRouter();
 
   const [facturas, setFacturas] = useState<Factura[]>([]);
   const [selectedFactura, setSelectedFactura] = useState<Factura | null>(null);
@@ -75,7 +77,7 @@ const FacturasList: React.FC = () => {
 
   const handlePay = () => {
     console.log("Pagar factura", selectedFactura);
-    // Lógica para pagar la factura
+    router.push("/dashboard/pagos");
     console.log(selectedFactura?.id);
   };
 
