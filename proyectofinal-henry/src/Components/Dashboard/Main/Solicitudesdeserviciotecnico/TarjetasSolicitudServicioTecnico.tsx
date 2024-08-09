@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import { fetchAsistencias } from "@/services/Soporte.services";
 import AsistenciaModal from "./modalDetallesSolicitudesServicios";
+import { useAuth } from "@/context/AuthContext";
 
 interface Asistencia {
   id: string;
@@ -16,6 +16,7 @@ interface Asistencia {
 }
 
 export const AsistenciasList: React.FC = () => {
+  const { userData } = useAuth();
   const [asistencias, setAsistencias] = useState<Asistencia[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,25 +25,28 @@ export const AsistenciasList: React.FC = () => {
     setSelectedAsistencia,
   ] = useState<Asistencia | null>(null);
 
-  const loadAsistencias = async () => {
-    try {
-      const data = await fetchAsistencias();
-      setAsistencias(data);
-    } catch (error) {
-      setError("Error al cargar las asistencias");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = () => {
-    loadAsistencias(); // Recarga la lista de asistencias después de eliminar
-    setSelectedAsistencia(null); // Cierra el modal
-  };
-
   useEffect(() => {
+    const loadAsistencias = async () => {
+      if (!userData?.tokenData?.token) {
+        setError("No se pudo obtener el token de autenticación.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const data = await fetchAsistencias(userData.tokenData.token);
+        setAsistencias(data);
+        setError(null); // Resetea cualquier error previo
+      } catch (error) {
+        setError("Error al cargar las asistencias");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadAsistencias();
-  }, []);
+  }, [userData]);
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>{error}</div>;
@@ -54,7 +58,7 @@ export const AsistenciasList: React.FC = () => {
         {asistencias.map((asistencia) => (
           <div
             key={asistencia.id}
-            className="p-4 border border-gray-300 rounded-lg shadow-lg"
+            className="p-4 border border-gray-300 rounded-lg shadow-lg cursor-pointer transition duration-300 ease-in-out transform hover:bg-gray-100 hover:shadow-xl hover:scale-105"
             onClick={() => setSelectedAsistencia(asistencia)}
           >
             <h3 className="text-lg font-semibold">{asistencia.problema}</h3>
@@ -72,7 +76,12 @@ export const AsistenciasList: React.FC = () => {
         <AsistenciaModal
           asistencia={selectedAsistencia}
           onClose={() => setSelectedAsistencia(null)}
-          onDelete={handleDelete} // Pasa la función para manejar la eliminación
+          onDelete={() => {
+            setAsistencias(
+              asistencias.filter((a) => a.id !== selectedAsistencia.id)
+            );
+            setSelectedAsistencia(null);
+          }}
         />
       )}
     </div>
