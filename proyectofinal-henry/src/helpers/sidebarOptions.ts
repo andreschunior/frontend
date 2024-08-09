@@ -17,7 +17,7 @@ export const sidebarOptionsAdmin = [
                                 //  {subOptionsName: "Solicitudes rechazadas", router: true}
                                 ]   // NO
                     }, 
-                    {optionName: "Servicios", // ok
+                    {optionName: "Solicitudes de Servicio Tecnico",
                      router: true, 
                      subOptions: []},  
                    

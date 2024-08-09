@@ -2,6 +2,10 @@
 import { fetchServicios } from "@/services/Planes.services";
 import React, { useEffect, useState } from "react";
 
+import { useAuth } from "@/context/AuthContext";
+import { sendAssistanceRequest } from "@/services/Soporte.services";
+import Swal from "sweetalert2";
+
 interface Plan {
   id: string;
   agente: string;
@@ -22,6 +26,7 @@ export const ChangePlanModal: React.FC<ChangePlanModalProps> = ({
   onClose,
 }) => {
   const [planes, setPlanes] = useState<Plan[]>([]);
+  const { userData } = useAuth();
 
   useEffect(() => {
     if (isOpen) {
@@ -38,6 +43,34 @@ export const ChangePlanModal: React.FC<ChangePlanModalProps> = ({
     }
   }, [isOpen]);
 
+  const handlePlanSelect = async (plan: Plan) => {
+    if (!userData) return;
+    const problem = `Quiero cambiar de plan a ${plan.nombre}`;
+    const observations = `Plan solicitado: ${plan.nombre},`;
+
+    try {
+      await sendAssistanceRequest(
+        userData.tokenData.token,
+        userData.userData.id,
+        {
+          diaCliente: "",
+          horarios: "",
+          problema: problem,
+          observaciones: observations,
+        }
+      );
+
+      Swal.fire(
+        "Solicitud enviada",
+        "Tu solicitud de cambio de plan se ha enviado correctamente",
+        "success"
+      );
+      onClose();
+    } catch (error) {
+      Swal.fire("Error", "No se pudo enviar la solicitud", "error");
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -49,10 +82,7 @@ export const ChangePlanModal: React.FC<ChangePlanModalProps> = ({
             <li
               key={plan.id}
               className="p-4 border border-gray-300 rounded cursor-pointer hover:bg-gray-100 hover:shadow-lg transition-all duration-300"
-              onClick={() => {
-                console.log("Plan seleccionado:", plan);
-                onClose();
-              }}
+              onClick={() => handlePlanSelect(plan)}
             >
               <h3 className="text-lg font-semibold">{plan.nombre}</h3>
 

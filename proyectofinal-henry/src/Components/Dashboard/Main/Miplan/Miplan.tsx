@@ -1,7 +1,7 @@
 import React from "react";
 import { PlanActual } from "./PlanActual";
 
-const Plan: React.FC = () => {
+const Miplan: React.FC = () => {
   return (
     <>
       <div
@@ -18,4 +18,4 @@ const Plan: React.FC = () => {
   );
 };
 
-export default Plan;
+export default Miplan;
