@@ -38,15 +38,26 @@ export const sendAssistanceRequest = async (
 
 
 
-export const fetchAsistencias = async (page: number = 1, limit: number = 10) => {
+
+
+export const fetchAsistencias = async (token: string, page: number = 1, limit: number = 10) => {
   try {
-    const response = await axios.get(`http://localhost:3000/asistencias`);
+    const response = await axios.get(`http://localhost:3000/asistencias`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        page,
+        limit,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error al obtener las asistencias:', error);
     throw error;
   }
 };
+
 
 export const deleteAsistencia = async (id: string, token: string) => {
   try {
