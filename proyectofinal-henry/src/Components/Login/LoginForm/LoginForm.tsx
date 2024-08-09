@@ -1,17 +1,21 @@
 'use client'
 import { useAuth } from '@/context/AuthContext';
 import { validateLogin } from '@/helpers/validateLogin';
-import { loginSesion, loginSesionGoogle, loginUser } from '@/services/user.services';
+import { apiURL, loginSesion, loginSesionGoogle, loginUser, pathAuth0 } from '@/services/user.services';
 import { ITokenSession, IUserSession } from '@/types/login.types';
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
 import iconGoogle from "../../../../public/images/iconGoogle.png";
 import Image from 'next/image';
-import axios from 'axios';
+import { usePathname } from 'next/navigation';
+
+
 
 const LoginForm = () => {   
     const { login } = useAuth();
+	const pathname = usePathname()
+console.log("pathname: ", pathname);
 
 	const [formData, setFormData] = useState({
 		email: '',
@@ -73,22 +77,17 @@ const LoginForm = () => {
 
 
 		  
-		  const handleLoginGoogle = async () => {
-	
+		//   const handleLoginGoogle = async () => {
+		// 	window.location.href = apiURL+pathAuth0;
+		//   }
+
+		  useEffect(() => {
+			const fetchData = async () => {
 				try{
-					//const firstTokenData: ITokenSession = await loginSesionGoogle();
-			
-					  const res = await fetch(`http://localhost:3000/users/auth0/callback`, {
-						method: 'GET',
-						credentials: 'include',
-						headers: {
-							'Content-Type': 'application/json',
-						  },
-						});
-						console.log("res: ", res)
-					const firstTokenData = await res.json()
+					const firstTokenData: ITokenSession = await loginSesionGoogle();
 					console.log("firstTokenData: ", firstTokenData);
 					const { token } = firstTokenData
+
 					if (token){
 					const userData: IUserSession = await loginUser(firstTokenData.user.id, firstTokenData.token);
 	
@@ -120,6 +119,20 @@ const LoginForm = () => {
 				}	
 			  }
 
+			  if (pathname === '/users/auth0/callback') {
+				fetchData();
+			  }
+			}, [pathname]);
+
+			const [modalOpen, setModalOpen] = useState(false);
+
+			const handleLoginGoogle = () => {
+			  setModalOpen(true);
+			};
+		  
+			const closeModal = () => {
+			  setModalOpen(false);
+			};
 
      return (
 		<div className=" mt-[30%] w-96 h-80 overflow-hidden bg-gray-100 rounded-xl shadow-2xl p-4 ">
@@ -157,13 +170,21 @@ const LoginForm = () => {
 						<Image className="mr-2" src={iconGoogle} alt="Google Icon" width={20} height={20} />
 						Iniciar sesión con Google
 				</button>
-            </div>
-
-			
-			
-
-		
+            </div>		
 		  </div>
+
+		  {modalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-4 rounded-lg">
+            <button onClick={closeModal}>Cerrar</button>
+            <iframe 
+              src="http://localhost:3000/users/auth0/callback" 
+              className="w-full h-96" 
+             
+            />
+          </div>
+        </div>
+      )}
 		</div>
 	  )
 	};
