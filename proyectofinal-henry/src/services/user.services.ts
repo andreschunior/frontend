@@ -2,8 +2,8 @@ import { useAuth } from "@/context/AuthContext";
 import { ILoginProps } from "@/types/login.types";
 import axios from "axios";
 
-const apiURL = process.env.NEXT_PUBLIC_API_URL;
-
+export const apiURL = process.env.NEXT_PUBLIC_API_URL;
+export const pathAuth0: string = `/users/auth0/callback`
 
 export async function loginSesion(data: ILoginProps) {
     try { 
@@ -30,7 +30,7 @@ export async function loginSesionGoogle() {
       const res = await fetch(`${apiURL}/users/auth0/callback`, {
           method: 'GET',
           headers: {
-              'Content-Type': 'application/json',
+              'Accept': 'application/json',
             },
           });
       const user = await res.json()

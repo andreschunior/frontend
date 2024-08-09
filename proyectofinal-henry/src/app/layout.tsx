@@ -4,7 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { DarkProvider } from "@/context/DarkContext";
 import { SidebarProvider } from "@/context/SidebarContext";
-import MercadoPagoInitializer from "@/Components/Dashboard/Main/Pagos/MercadoPagoInitializer";
+import { MercadoPagoProvider } from "@/context/MercadoPagosContext";
 
 const inter = Montserrat({ subsets: ["latin"] });
 
@@ -22,12 +22,13 @@ export default function RootLayout({
     <AuthProvider>
       <DarkProvider>
        <SidebarProvider>
-        <html lang="en">
-          <body className={inter.className}>
-            <MercadoPagoInitializer />
-              {children}
-          </body>
-        </html>
+       <MercadoPagoProvider>
+          <html lang="en">
+            <body className={inter.className}>
+                {children}
+            </body>
+          </html>
+        </MercadoPagoProvider>
       </SidebarProvider>
      </DarkProvider>
     </AuthProvider>
