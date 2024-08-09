@@ -23,6 +23,8 @@ export default function RootLayout({
       <DarkProvider>
        <SidebarProvider>
         <html lang="en">
+        
+
           <body className={inter.className}>
             <MercadoPagoInitializer />
               {children}

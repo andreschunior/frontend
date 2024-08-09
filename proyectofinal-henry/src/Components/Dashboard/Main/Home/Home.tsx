@@ -3,7 +3,7 @@ import { useSidebarContext } from "@/context/SidebarContext";
 import React from "react";
 import Loading from "@/Components/Dashboard/Loading/Loading";
 import { useAuth } from "@/context/AuthContext";
-import { PlanActual } from "../Plan/PlanActual";
+import { PlanActual } from "../Miplan/PlanActual";
 
 const Home = () => {
   const { btnFixed } = useSidebarContext();
