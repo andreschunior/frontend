@@ -59,7 +59,7 @@ const getColorByFirstLetter = (name: string) => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <div className="flex items-center justify-center text-center space-x-4 ">
+      <div className="flex items-center justify-center text-center space-x-4 cursor-pointer">
         <div className="flex flex-col text-end ">
             <p className="text-gray-200">¡Hola, {userData?.userData.nombre}!</p>
         </div>
