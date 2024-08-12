@@ -1,5 +1,6 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
+import { apiURL, pathAuth0 } from "@/services/user.services";
 import React, { useEffect, useState, MouseEvent } from "react";
 
 const ExpirationAlert = () => {
@@ -45,7 +46,11 @@ const ExpirationAlert = () => {
   }, [userData, logout]);
 
   const handleClickOutside = (event: MouseEvent<HTMLDivElement>) => {
-    renewToken(null);
+    if (userData?.tokenData.keyProperty !== null){
+      renewToken(null);
+    } else {
+      window.location.href = apiURL+pathAuth0;
+    }
   };
 
   return (
