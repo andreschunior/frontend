@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext'; // Asegúrate de actualizar la ruta al archivo correcto
 import { useSidebarContext } from '@/context/SidebarContext';
 import ModalImagen from './ModalImagen/ModalImagen';
+import Link from 'next/link';
 
 const UserProfile: React.FC = () => {
   const { userData } = useAuth();
@@ -86,12 +87,11 @@ const getColorByFirstLetter = (name: string) => {
 
       <br/>
 
-      <button
-    //   onClick={handleUpdate}
-      className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300"
-    >
-      Actualizar Datos
-    </button>
+      <Link href="./ActualizarDatosPerfil" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300">
+        
+          Actualizar Datos
+    
+      </Link>
 
 
     </div>
