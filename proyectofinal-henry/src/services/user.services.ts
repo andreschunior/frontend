@@ -42,7 +42,7 @@ export async function loginSesionGoogle() {
   }
 }
 
-export async function loginUser(id: string, token: string) {
+export async function loginUser(id: string|null, token: string|null) {
     try { 
         const res = await fetch(`${apiURL}/users/${id}`, {
             method: 'GET',

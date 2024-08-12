@@ -1,15 +1,14 @@
 'use client'
 import { useAuth } from '@/context/AuthContext';
 import { validateLogin } from '@/helpers/validateLogin';
-import { apiURL, loginSesion, loginSesionGoogle, loginUser, pathAuth0 } from '@/services/user.services';
+import { apiURL, loginSesion, loginUser, pathAuth0 } from '@/services/user.services';
 import { ITokenSession, IUserSession } from '@/types/login.types';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Swal from 'sweetalert2';
 import iconGoogle from "../../../../public/images/iconGoogle.png";
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-
 
 
 const LoginForm = () => {   
@@ -75,64 +74,9 @@ console.log("pathname: ", pathname);
             }	
           }
 
-
-		  
-		//   const handleLoginGoogle = async () => {
-		// 	window.location.href = apiURL+pathAuth0;
-		//   }
-
-		  useEffect(() => {
-			const fetchData = async () => {
-				try{
-					const firstTokenData: ITokenSession = await loginSesionGoogle();
-					console.log("firstTokenData: ", firstTokenData);
-					const { token } = firstTokenData
-
-					if (token){
-					const userData: IUserSession = await loginUser(firstTokenData.user.id, firstTokenData.token);
-	
-					const tokenData = {...firstTokenData, keyProperty: formData.password}
-					if (userData) {
-					login({ tokenData,  userData}); 
-	
-					Swal.fire({
-					  title: "¡Acceso exitoso!",
-					  html: `  <h1 style="color:gray; font-size:25px; font-weight: 500;" > Bienvenido(a):</h1>
-								 <p style="margin-top:10px">${userData.email}</p> 
-							   <p style="font-size:20px">${userData.nombre} </p>	
-					   `,
-					  icon: "success",
-					  showCancelButton: false,
-					  confirmButtonColor: "#3085d6",
-					  confirmButtonText: "Ok"
-					})
-					}
-				  }
-			  } 
-			  catch (err: any) {
-				  const errorMessage = err.message;
-				  Swal.fire({
-					icon: "error",
-					title: "Oops...",
-					text: errorMessage,
-				  });
-				}	
-			  }
-
-			  if (pathname === '/users/auth0/callback') {
-				fetchData();
-			  }
-			}, [pathname]);
-
-			const [modalOpen, setModalOpen] = useState(false);
-
-			const handleLoginGoogle = () => {
-			  setModalOpen(true);
-			};
-		  
-			const closeModal = () => {
-			  setModalOpen(false);
-			};
+		  const handleLoginGoogle = async () => {
+		 	window.location.href = apiURL+pathAuth0;
+		   }
 
      return (
 		<div className=" mt-[30%] w-96 h-80 overflow-hidden bg-gray-100 rounded-xl shadow-2xl p-4 ">
@@ -172,19 +116,6 @@ console.log("pathname: ", pathname);
 				</button>
             </div>		
 		  </div>
-
-		  {modalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg">
-            <button onClick={closeModal}>Cerrar</button>
-            <iframe 
-              src="http://localhost:3000/users/auth0/callback" 
-              className="w-full h-96" 
-             
-            />
-          </div>
-        </div>
-      )}
 		</div>
 	  )
 	};

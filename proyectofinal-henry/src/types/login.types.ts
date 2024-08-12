@@ -1,6 +1,6 @@
 export interface ILoginProps {
       email: string;    
-      password: string; 
+      password: string | null; 
 }
 
 export interface ILoginPropsError {
@@ -21,7 +21,7 @@ export interface ITokenSession {
             nombre: string;
             roles: string[];
           };
-      keyProperty: string;    
+      keyProperty: string | null;    
       }
 
       export interface IUserSession {

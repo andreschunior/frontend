@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<IProviderProps> = ({ children }) => {
   };
 
   const renewToken = async () => {
-    if (userData) {
+    if (userData && userData.tokenData.keyProperty !== null) {
       try {
         const loginProps: ILoginProps = {
           email: userData.userData.email,
