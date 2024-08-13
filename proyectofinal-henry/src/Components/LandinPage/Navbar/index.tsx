@@ -1,7 +1,7 @@
 import React from "react";
-import { BotonPagos } from "../Boton/page";
-import botonPago from "../../../../pics/boton Pagos.svg";
-import Link from "next/link";
+import logo_01 from "../../../../public/images/Logo01.png"
+import Image from "next/image";
+import Button from "./Button/Button";
 
 export const Navbar: React.FC = () => {
   return (
@@ -12,10 +12,12 @@ export const Navbar: React.FC = () => {
             href="https://flowbite.com/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
+            <Image
+              src={logo_01}
+              className="h-auto w-auto rotate-[-1.5deg] mt-[-15px] mb-[-10px]"
+              alt="Logo"
+              width={95}
+              height={95}
             />
           </a>
           <div className="flex flex-grow justify-center">
@@ -61,13 +63,9 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <Link href="/login/1">
-            {/* boton de pagos  */}
-            <div className="ml-auto flex  items-center  w-60">
-              <BotonPagos Imagen={botonPago} />
-            </div>
-          </Link>
+    < Button />
 
+{/* 
           <button
             data-collapse-toggle="navbar-default"
             type="button"
@@ -91,7 +89,7 @@ export const Navbar: React.FC = () => {
                 d="M1 1h15M1 7h15M1 13h15"
               />
             </svg>
-          </button>
+          </button> */}
         </div>
       </nav>
     </>
