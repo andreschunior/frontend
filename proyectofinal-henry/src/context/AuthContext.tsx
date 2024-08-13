@@ -53,16 +53,25 @@ export const AuthProvider: React.FC<IProviderProps> = ({ children }) => {
     };
   }, [router]);
 
+  const [cookieReady, setCookieReady] = useState(false);
+
   const login = (user: IUserData | null) => {
     setUserData(user);
-    router.push("/dashboard/home");
+    setCookieReady(true);
   };
+  
+  useEffect(() => {
+    if (cookieReady) {
+      router.push("/dashboard/home");
+    }
+  }, [cookieReady]);
 
   const logout = () => {
     setUserData(null);
     localStorage.removeItem("userSession");
     localStorage.removeItem("selectedCampus");
     destroyCookie(null, "authToken");
+    setCookieReady(false);
     router.push("/");
   };
 

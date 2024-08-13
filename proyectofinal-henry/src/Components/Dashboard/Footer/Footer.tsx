@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import logoIns from '../../../../public/images/logoIns.png'
+import logo_01 from '../../../../public/images/Logo01.png'
 import avatar1 from '../../../../public/images/avatar.jpg'
 import avatar2 from '../../../../public/images/avatarProfile.jpg'
 import Image from 'next/image';
@@ -32,7 +32,7 @@ const Footer = () => {
           <div className="flex">
             <div className="me-3 shrink-0">
               <a href="#" className="block p-2 bg-gray-100 rounded-lg dark:bg-gray-700">
-                <Image className="w-8 h-8 rounded-full" src={logoIns} alt="Flowbite logo" />
+                <Image className="w-8 h-8 rounded-full rotate-[-1.5deg]" src={logo_01} alt="Flowbite logo" />
               </a>
             </div>
             <div>

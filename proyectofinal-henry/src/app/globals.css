@@ -87,10 +87,10 @@ html {
 
 @keyframes logoIns-spin {
   from {
-    transform: rotateY(0deg); /* Inicia en 0 grados de rotación en el eje Y */
+    transform: rotateY(0deg) rotate(-1.5deg); /* Inicia en 0 grados de rotación en el eje Y */
   }
   to {
-    transform: rotateY(360deg); /* Termina en 360 grados de rotación en el eje Y */
+    transform: rotateY(360deg) rotate(-1.5deg); /* Termina en 360 grados de rotación en el eje Y */
   }
 }
 

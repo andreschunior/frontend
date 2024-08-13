@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import logoNetlab from "../../../../../pics/boton Pagos.svg";
-import iconoINS from "../../../../../pics/BotonTestVelocidad.svg";
+import logo_01 from "../../../../../public/images/Logo01.png";
 import { useSidebarContext } from "@/context/SidebarContext";
 
 const ButtonLogo = () => {
@@ -19,16 +18,16 @@ const ButtonLogo = () => {
         onClick={handleClick}
       >
         <Image
-          src={iconoINS}
+          src={logo_01}
           alt="Icono"
           className={`logoIns h-auto w-12 fixed mt-12 transition-all duration-700 delay-200 ${
             isExpanded ? "opacity-0" : "opacity-100"
           }`}
         />
         <Image
-          src={logoNetlab}
+          src={logo_01}
           alt="Logo"
-          className={`h-auto w-44 fixed mt-14 ml-[10%] transition-all duration-700 delay-200 ${
+          className={`h-auto w-32 fixed mt-28 ml-[17%] transition-all duration-700 delay-200 rotate-[-1.5deg] ${
             isExpanded ? "opacity-100" : "opacity-0"
           }`}
         />

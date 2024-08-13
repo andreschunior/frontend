@@ -15,7 +15,7 @@ export async function enviarRelevamiento(data: RelevamientoData): Promise<any> {
 
   export const fetchRelevamientos = async (page: number, limit: number) => {
     try {
-      const response = await axios.get(`${apiURL}/relevamientos?page=${page}&limit${limit}`);
+      const response = await axios.get(`${apiURL}/relevamientos?page=${page}&limit${999}`);
       return response.data.relevamientos;
     } catch (error) {
       console.error('Error al obtener los datos del endpoint', error);
