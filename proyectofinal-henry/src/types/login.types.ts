@@ -45,7 +45,10 @@ export interface ITokenSession {
             emailInstal: string;
             observaciones: string;
             senalConexion: string;
-            facturas: string[];
+            facturas: IFactura[];
+            equipos: string[];
+            servicios: IService[];
+            asistencias: string[];
             imgUrl: string;
         }
 
@@ -54,6 +57,28 @@ export interface IUserData {
       userData: IUserSession; 
   }  
 
+  export default interface IFactura {
+      id: string;
+      agente: string;
+      fechaGen: string;
+      concepto: string;
+      observaciones: string;
+      numFactura: number;
+      tipoPago: string;
+      pagado: boolean;
+      fechaVencimiento: string;
+      importe: number;
+    }
+
+    export interface IService {
+      id: string;
+      agente: string;
+      velocidadBajada: string;
+      velocidadSubida: string;
+      costoConexion: string;
+      abono: string;
+      nombre: string;
+    }
 
          
 

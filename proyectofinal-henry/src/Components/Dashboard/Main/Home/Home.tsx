@@ -1,9 +1,9 @@
 "use client";
 import { useSidebarContext } from "@/context/SidebarContext";
 import React from "react";
-import Loading from "@/Components/Dashboard/Loading/Loading";
 import { useAuth } from "@/context/AuthContext";
-import { PlanActual } from "../Miplan/PlanActual";
+import Estadodecuenta from "./Estadodecuenta/Estadodecuenta";
+import PanelDeControl from "./PanelDeControl/PanelDeControl";
 
 const Home = () => {
   const { btnFixed } = useSidebarContext();
@@ -12,9 +12,10 @@ const Home = () => {
 
   return (
     <>
-      <Loading />
+         
+
       <div
-        className={`p-3 mt-20 transition-all duration-1000  ${
+        className={`p-3 mt-10 transition-all duration-1000  ${
           btnFixed ? "ml-[270px]" : "ml-24"
         }`}
       >
@@ -28,20 +29,20 @@ const Home = () => {
             ? "Dashboard Administrativo"
             : "Dashboard de Usuario"}
         </h2>
+        <br />
+        {
+            roles?.includes("admin") ? (
+              <PanelDeControl />
+            ) : roles?.includes("user") ? (
+              <Estadodecuenta />
+            ) : (
+              null
+            )
+          }
 
         <br />
 
-        <ul className="ml-8">
-          <h2 className="text-1xl text-gray-400 dark:text-orange-300/80">
-            Integrantes del equipo
-          </h2>
-          <li>Jose Andres Borrero Labrador - Front End</li>
-          <li>Carlos Manuel Olivera Mispireta - Front End</li>
-          <li>Joaquin Noe Ibañez Aro - Front End</li>
-          <li>Edmundo Kinast - Back End</li>
-          <li>Rafael Velazquez Hernandez - Back End</li>
-          <li>Rodrigo Nahuel Fernandez - Back End</li>
-        </ul>
+
       </div>
     </>
   );

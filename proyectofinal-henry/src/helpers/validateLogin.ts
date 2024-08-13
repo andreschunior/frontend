@@ -11,9 +11,9 @@ export const validateLogin = (input: ILoginProps): ILoginPropsError => {
         errors.email = `Carácter no admitido`;
       }
 
-      if (input.password.trim().length < 1) {
+      if (input.password && input.password.trim().length < 1) {
         errors.password = `El campo password es obligatorio`;
-      } else if (!regexStrongPassword.test(input.password)) {
+      } else if (!regexStrongPassword.test(input.password!)) {
         errors.password = `Carácter no admitido`;
       }
 

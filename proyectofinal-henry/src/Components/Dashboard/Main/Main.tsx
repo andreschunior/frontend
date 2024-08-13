@@ -1,6 +1,8 @@
 import React from "react";
 import UserProfile from "../UserProfile/UserProfile";
 import ExpirationAlert from "../ExpirationAlert/ExpirationAlert";
+import Loading from "@/Components/Dashboard/Loading/Loading";
+
 
 const Main = ({ page }: { page: string }) => {
   const router = page.charAt(0).toUpperCase() + page.slice(1);
@@ -9,6 +11,7 @@ const Main = ({ page }: { page: string }) => {
     <>
       {page === "userProfile" ? <UserProfile /> : <ComponentToRender />}
       <ExpirationAlert />
+      <Loading />
     </>
   );
 };
