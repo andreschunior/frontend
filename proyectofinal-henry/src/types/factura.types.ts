@@ -15,6 +15,7 @@ export default interface Factura {
   importe: number;
   user: IUserData; 
   nombre:string
+  pagado:boolean;
 }
 
 export interface FacturasResponse {

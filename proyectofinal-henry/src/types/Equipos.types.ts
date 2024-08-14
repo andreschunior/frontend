@@ -13,5 +13,6 @@ interface Equipos {
     cableMts: string;
     macEquipo: string;
     antena: string;
+    isAvailable: boolean
   }
   export default Equipos

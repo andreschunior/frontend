@@ -5,7 +5,7 @@ import {
   DescargarFactura,
   fetchFacturasId,
 } from "@/services/Facturas.services";
-import Factura, { FacturasResponse } from "@/types/factura.types";
+import Factura from "@/types/factura.types";
 import FacturaDetailModal from "./FacturaDetalles";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
@@ -32,16 +32,19 @@ const FacturasList: React.FC = () => {
       try {
         const data: any = await fetchFacturasId(token, id);
         if (data && data.facturas) {
-          // Extraer el array de facturas desde el objeto completo
-          setFacturas(data.facturas);
-          console.log(data);
+          // Ordenar las facturas: las no pagadas primero
+          const sortedFacturas = data.facturas.sort(
+            (a: Factura, b: Factura) => {
+              return a.pagado === b.pagado ? 0 : a.pagado ? 1 : -1;
+            }
+          );
+          setFacturas(sortedFacturas);
+          console.log(sortedFacturas);
         } else {
-          // Si data es null o data.facturas no está definido, asigna un array vacío
           setFacturas([]);
         }
       } catch (error) {
         console.error("Error al obtener las facturas:", error);
-        // Asegúrate de que el estado facturas se establezca como vacío en caso de error
         setFacturas([]);
       } finally {
         setIsLoading(false);
@@ -50,20 +53,6 @@ const FacturasList: React.FC = () => {
 
     getFacturas();
   }, [userData]);
-
-  // useEffect(() => {
-  //   if (!isLoading) {
-  //     if (facturas.length === 0) {
-  //       Swal.fire({
-  //         title: "No Tiene Facturas",
-  //         icon: "info",
-  //         showCancelButton: false,
-  //         confirmButtonColor: "#3085d6",
-  //         confirmButtonText: "Ok",
-  //       });
-  //     }
-  //   }
-  // }, [isLoading, facturas]);
 
   const handleOpenModal = (factura: Factura) => {
     setSelectedFactura(factura);
@@ -117,19 +106,35 @@ const FacturasList: React.FC = () => {
         {facturas.length === 0 ? (
           <h1 className="text-4xl">No tiene facturas</h1>
         ) : (
-          facturas.map((factura) => (
-            <div
-              key={factura.id}
-              className="p-4 mb-2 border rounded-md cursor-pointer hover:bg-gray-100 flex justify-center"
-              onClick={() => handleOpenModal(factura)}
-            >
-              <p>
-                Fecha de Generación:{" "}
-                {new Date(factura.fechaGen).toLocaleDateString()}
-              </p>
-              <p className="ml-10">Número de Factura: {factura.numFactura}</p>
+          <>
+            {/* Títulos de las columnas */}
+            <div className="grid grid-cols-4 gap-4 p-4 font-bold text-center border-b-2">
+              <p>Fecha de Generación</p>
+              <p>Número de Factura</p>
+              <p>Importe</p>
+              <p>Estado</p>
             </div>
-          ))
+
+            {/* Listado de facturas */}
+            {facturas.map((factura) => (
+              <div
+                key={factura.id}
+                className={`grid grid-cols-4 gap-4 p-4 mb-2 border rounded-md cursor-pointer hover:bg-gray-100 ${
+                  factura.pagado ? "bg-green-100" : "bg-red-100"
+                }`}
+                onClick={() => handleOpenModal(factura)}
+              >
+                <p className="text-center">
+                  {new Date(factura.fechaGen).toLocaleDateString()}
+                </p>
+                <p className="text-center">{factura.numFactura}</p>
+                <p className="text-center">{factura.importe}</p>
+                <p className="text-center">
+                  {factura.pagado ? "Pagado" : "Pendiente"}
+                </p>
+              </div>
+            ))}
+          </>
         )}
         {selectedFactura && (
           <FacturaDetailModal

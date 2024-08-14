@@ -55,29 +55,6 @@ const FacturaDetailModal: React.FC<FacturaDetailModalProps> = ({
             <strong>Importe:</strong> {factura.importe}
           </p>
         </div>
-        {/* <div className="mt-4">
-          <h3 className="text-lg font-bold mb-2">Detalles del Usuario</h3>
-          <p>
-            <strong>Nombre:</strong>{" "}
-            {userData?.userData.nombre ?? "No disponible"}
-          </p>
-          <p>
-            <strong>Email:</strong>{" "}
-            {userData?.userData.email ?? "No disponible"}
-          </p>
-          <p>
-            <strong>Teléfono:</strong>{" "}
-            {userData?.userData.telefono ?? "No disponible"}
-          </p>
-          <p>
-            <strong>Dirección:</strong>{" "}
-            {userData?.userData.direccion ?? "No disponible"}
-          </p>
-          <p>
-            <strong>Razón Social:</strong>{" "}
-            {userData?.userData.razonSocial ?? "No disponible"}
-          </p>
-        </div> */}
         <div className="mt-4 text-center">
           <button
             onClick={onClose}
@@ -85,12 +62,16 @@ const FacturaDetailModal: React.FC<FacturaDetailModalProps> = ({
           >
             Cerrar
           </button>
-          <button
-            onClick={onPay}
-            className="shadow-md px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 mx-2"
-          >
-            Pagar
-          </button>
+
+          {!factura.pagado && (
+            <button
+              onClick={onPay}
+              className="shadow-md px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 mx-2"
+            >
+              Pagar
+            </button>
+          )}
+
           <button
             onClick={onDownload}
             className="shadow-md px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 mx-2"

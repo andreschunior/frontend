@@ -100,10 +100,7 @@ export const sidebarOptionsAdmin = [
             router: true,   
             subOptions: [] 
            }, 
-           {optionName: "Proxima facturación", // PENDIENTE
-            router: true,   
-            subOptions: [] 
-           },]
+           ]
     },
     {
         rolName: "Asistente Virtual",// OK

@@ -18,7 +18,13 @@ interface Provincia {
   localidades: Localidad[];
 }
 
-export const FormServicio: React.FC = () => {
+interface FormServicioProps {
+  initialCoordinates: { lat: number; lng: number } | null;
+}
+
+export const FormServicio: React.FC<FormServicioProps> = ({
+  initialCoordinates,
+}) => {
   const {
     register,
     handleSubmit,
@@ -26,13 +32,23 @@ export const FormServicio: React.FC = () => {
     formState: { errors },
     reset,
     trigger,
+    setValue,
   } = useForm();
+
   const [provincias, setProvincias] = useState<Provincia[]>([]);
   const [selectedProvincia, setSelectedProvincia] = useState<string>("");
   const [selectedLocalidad, setSelectedLocalidad] = useState<string>("");
   const [localidadesDisponibles, setLocalidadesDisponibles] = useState<
     Localidad[]
   >([]);
+  const [showErrors, setShowErrors] = useState<{ [key: string]: boolean }>({});
+
+  const [latitud, setLatitud] = useState<string>(
+    initialCoordinates?.lat.toString() || ""
+  );
+  const [longitud, setLongitud] = useState<string>(
+    initialCoordinates?.lng.toString() || ""
+  );
 
   const nombre = watch("nombre");
   const correo = watch("correo");
@@ -58,24 +74,16 @@ export const FormServicio: React.FC = () => {
   }, [selectedProvincia, provincias]);
 
   useEffect(() => {
-    trigger("nombre");
-  }, [nombre, trigger]);
+    if (initialCoordinates) {
+      setLatitud(initialCoordinates.lat.toString());
+      setLongitud(initialCoordinates.lng.toString());
+    }
+  }, [initialCoordinates]);
 
-  useEffect(() => {
-    trigger("correo");
-  }, [correo, trigger]);
-
-  useEffect(() => {
-    trigger("telefono");
-  }, [telefono, trigger]);
-
-  useEffect(() => {
-    trigger("direccion");
-  }, [direccion, trigger]);
-
-  useEffect(() => {
-    trigger("razon");
-  }, [razon, trigger]);
+  const handleInputChange = async (field: string) => {
+    setShowErrors((prev) => ({ ...prev, [field]: true }));
+    await trigger(field); // Dispara la validación para el campo especificado
+  };
 
   const onSubmit = async (data: any) => {
     try {
@@ -92,6 +100,8 @@ export const FormServicio: React.FC = () => {
         direccion: data.direccion,
         provincia: provincia ? provincia.nombre : "",
         localidad: localidad ? localidad.nombre : "",
+        latitud: parseFloat(latitud),
+        longitud: parseFloat(longitud),
       };
 
       const response = await enviarRelevamiento(relevamientoData);
@@ -107,6 +117,9 @@ export const FormServicio: React.FC = () => {
       reset();
       setSelectedProvincia("");
       setSelectedLocalidad("");
+      setShowErrors({});
+      setLatitud("");
+      setLongitud("");
     } catch (error) {
       console.error("Error enviando los datos:", error);
     }
@@ -115,7 +128,7 @@ export const FormServicio: React.FC = () => {
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg mx-auto lg:ml-auto lg:w-1/3">
       <h1 className="text-2xl font-bold text-black text-center mb-6">
-        Elige el pan que quieres solicitar
+        Elige el plan que quieres solicitar
       </h1>
       <p className="text-black text-center mb-4">Por favor ingrese sus datos</p>
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
@@ -132,8 +145,9 @@ export const FormServicio: React.FC = () => {
               maxLength: 50,
               pattern: /^[a-zA-Z\s]*$/,
             })}
+            onInput={() => handleInputChange("nombre")}
           />
-          {errors.nombre && (
+          {showErrors.nombre && errors.nombre && (
             <p className="text-red-500">
               Nombre es requerido y debe tener menos de 50 caracteres
             </p>
@@ -152,8 +166,9 @@ export const FormServicio: React.FC = () => {
               maxLength: 50,
               pattern: /^\S+@\S+$/i,
             })}
+            onInput={() => handleInputChange("correo")}
           />
-          {errors.correo && (
+          {showErrors.correo && errors.correo && (
             <p className="text-red-500">
               Correo electrónico es requerido y debe ser válido
             </p>
@@ -167,17 +182,12 @@ export const FormServicio: React.FC = () => {
             type="tel"
             id="telefono"
             className="w-full p-2 border border-gray-300 rounded-md"
-            {...register("telefono", {
-              required: true,
-              maxLength: 15,
-              minLength: 7,
-              pattern: /^[0-9]+$/,
-            })}
+            {...register("telefono", { required: true, maxLength: 15 })}
+            onInput={() => handleInputChange("telefono")}
           />
-          {errors.telefono && (
+          {showErrors.telefono && errors.telefono && (
             <p className="text-red-500">
-              Teléfono es requerido, debe ser un número válido y tener al menos
-              7 digitos
+              Teléfono es requerido y debe tener menos de 15 caracteres
             </p>
           )}
         </div>
@@ -189,12 +199,11 @@ export const FormServicio: React.FC = () => {
             type="text"
             id="direccion"
             className="w-full p-2 border border-gray-300 rounded-md"
-            {...register("direccion", { required: true, maxLength: 100 })}
+            {...register("direccion", { required: true })}
+            onInput={() => handleInputChange("direccion")}
           />
-          {errors.direccion && (
-            <p className="text-red-500">
-              Dirección es requerida y debe tener menos de 100 caracteres
-            </p>
+          {showErrors.direccion && errors.direccion && (
+            <p className="text-red-500">Dirección es requerida</p>
           )}
         </div>
         <div>
@@ -205,10 +214,10 @@ export const FormServicio: React.FC = () => {
             id="provincia"
             className="w-full p-2 border border-gray-300 rounded-md"
             {...register("provincia", { required: true })}
+            value={selectedProvincia}
             onChange={(e) => {
-              const selectedId = e.target.value;
-              setSelectedProvincia(selectedId);
-              setSelectedLocalidad(""); // Resetea la localidad al cambiar la provincia
+              setSelectedProvincia(e.target.value);
+              setValue("provincia", e.target.value);
             }}
           >
             <option value="">Seleccione una provincia</option>
@@ -218,7 +227,7 @@ export const FormServicio: React.FC = () => {
               </option>
             ))}
           </select>
-          {errors.provincia && (
+          {showErrors.provincia && errors.provincia && (
             <p className="text-red-500">Provincia es requerida</p>
           )}
         </div>
@@ -230,24 +239,46 @@ export const FormServicio: React.FC = () => {
             id="localidad"
             className="w-full p-2 border border-gray-300 rounded-md"
             {...register("localidad", { required: true })}
-            onChange={(e) => setSelectedLocalidad(e.target.value)}
+            value={selectedLocalidad}
+            onChange={(e) => {
+              setSelectedLocalidad(e.target.value);
+              setValue("localidad", e.target.value);
+            }}
           >
             <option value="">Seleccione una localidad</option>
-            {localidadesDisponibles.length > 0 ? (
-              localidadesDisponibles.map((localidad) => (
-                <option key={localidad.id} value={localidad.id}>
-                  {localidad.nombre}
-                </option>
-              ))
-            ) : (
-              <option value="" disabled>
-                No hay localidades disponibles
+            {localidadesDisponibles.map((localidad) => (
+              <option key={localidad.id} value={localidad.id}>
+                {localidad.nombre}
               </option>
-            )}
+            ))}
           </select>
-          {errors.localidad && (
+          {showErrors.localidad && errors.localidad && (
             <p className="text-red-500">Localidad es requerida</p>
           )}
+        </div>
+        <div>
+          <label htmlFor="latitud" className="block text-gray-700">
+            Latitud
+          </label>
+          <input
+            type="text"
+            id="latitud"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            value={latitud}
+            readOnly
+          />
+        </div>
+        <div>
+          <label htmlFor="longitud" className="block text-gray-700">
+            Longitud
+          </label>
+          <input
+            type="text"
+            id="longitud"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            value={longitud}
+            readOnly
+          />
         </div>
         <div>
           <label htmlFor="razon" className="block text-gray-700">
@@ -256,20 +287,20 @@ export const FormServicio: React.FC = () => {
           <textarea
             id="razon"
             className="w-full p-2 border border-gray-300 rounded-md h-32 resize-none"
-            {...register("razon", { required: true, maxLength: 500 })}
-          ></textarea>
-          {errors.razon && (
-            <p className="text-red-500">
-              Comentarios es requerido y debe tener menos de 500 caracteres
-            </p>
+            {...register("razon", { required: true })}
+            onInput={() => handleInputChange("razon")}
+          />
+          {showErrors.razon && errors.razon && (
+            <p className="text-red-500">Comentarios es requerido</p>
           )}
         </div>
-        <div className="text-center">
+
+        <div className="flex justify-center">
           <button
             type="submit"
-            className="shadow-md px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-300"
           >
-            Enviar
+            Enviar solicitud
           </button>
         </div>
       </form>
