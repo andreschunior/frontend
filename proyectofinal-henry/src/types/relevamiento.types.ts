@@ -7,4 +7,6 @@ export interface RelevamientoData {
     direccion: string;
     provincia: string;
     localidad: string;
+    latitud :number;
+    longitud:number
   }

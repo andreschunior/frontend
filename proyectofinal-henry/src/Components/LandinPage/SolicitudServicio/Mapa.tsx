@@ -1,49 +1,73 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import React, { useEffect, useRef, useState } from "react";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 
-const mapContainerStyle = {
+const containerStyle = {
   width: "100%",
   height: "400px",
 };
 
-const center = {
-  lat: -34.397,
-  lng: 150.644,
-};
-
-export const Mapa: React.FC = () => {
-  const [currentPosition, setCurrentPosition] = useState<{
+interface MapaProps {
+  coordinates: {
     lat: number;
     lng: number;
-  } | null>(null);
+  };
+  onLocationChange: (newCoords: { lat: number; lng: number }) => void;
+}
+
+export const Mapa: React.FC<MapaProps> = ({
+  coordinates,
+  onLocationChange,
+}) => {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "", // Replace with your actual API key
+  });
+
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setCurrentPosition({
-          lat: latitude,
-          lng: longitude,
-        });
-      },
-      () => {
-        console.error("Error obteniendo la geolocalización");
-      }
-    );
-  }, []);
+    if (isLoaded && mapRef.current) {
+      const mapInstance = new google.maps.Map(mapRef.current, {
+        center: coordinates,
+        zoom: 15,
+      });
+      setMap(mapInstance);
+    }
+  }, [isLoaded, coordinates]);
 
-  return (
-    <>
-      <LoadScript googleMapsApiKey="Api Key Google Aqui">
-        <GoogleMap
-          mapContainerStyle={mapContainerStyle}
-          zoom={8}
-          center={currentPosition || center}
-        >
-          {currentPosition && <Marker position={currentPosition} />}
-        </GoogleMap>
-      </LoadScript>
-    </>
+  useEffect(() => {
+    if (map) {
+      const marker = new google.maps.Marker({
+        position: coordinates,
+        map: map,
+        title: "Tu ubicación",
+        draggable: true, // Make the marker draggable
+      });
+
+      // Set the map's center to the marker's position
+      map.setCenter(coordinates);
+
+      // Handle the event when the marker is dragged
+      marker.addListener("dragend", (event: google.maps.MapMouseEvent) => {
+        if (event.latLng) {
+          const newCoords = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+          };
+          onLocationChange(newCoords);
+        }
+      });
+
+      // Clean up the marker when the component unmounts
+      return () => {
+        marker.setMap(null);
+      };
+    }
+  }, [map, coordinates, onLocationChange]);
+
+  return isLoaded ? (
+    <div ref={mapRef} style={containerStyle}></div>
+  ) : (
+    <div>Loading...</div>
   );
 };
