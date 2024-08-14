@@ -9,15 +9,34 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { fetchAllUsers } from '@/services/allUsers.services';
 import { fetchRelevamientos } from '@/services/relevamientos.services';
+import { fetchAsistencias } from '@/services/Soporte.services';
+import { Maps } from './Maps';
 
 const GarphicBarsAdmin = dynamic(() => import('./GarphicBarsAdmin'), { ssr: false });
 
+interface Asistencia {
+  id: string;
+  createdAt: string;
+  agente: string;
+  userId: string;
+  diaCliente: string;
+  horarios: string;
+  problema: string;
+  observaciones: string;
+}
+
 const PanelDeControl = () => {
     const { userData } = useAuth();
-    const facturas = userData?.userData.facturas
+    const [userId, setUserId] = useState<string | undefined>();
+    const [asistenciaId, setAsistenciaId] = useState<string | undefined>();
     const [totalUsers, setTotalUsers] = useState<number>(0);
     const [totalRelevamientos, setTotalRelevamientos] = useState<number>(0);
     const token = userData?.tokenData.token;
+    const [asistencias, setAsistencias] = useState<Asistencia[]>([]);
+
+    let i = 1;
+
+    
 
     const firstLetterName = (name: string | undefined): string => {
         if (name && name.trim() !== "") return name.trim().charAt(0).toUpperCase();
@@ -39,9 +58,6 @@ const PanelDeControl = () => {
         return letterColors[firstLetter] || 'bg-gray-500'; // color por defecto si no coincide
     };
 
-    const ultimaFacturaNoPagada = userData?.userData.facturas
-    .filter(factura => !factura.pagado)
-    .slice(-1)[0];
 
     useEffect(() => {
       const getUsers = async () => {
@@ -52,7 +68,7 @@ const PanelDeControl = () => {
       };
   
       getUsers();
-    }, []);
+    }, [token]);
 
     useEffect(() => {
       const getRelevamientos = async () => {
@@ -62,6 +78,21 @@ const PanelDeControl = () => {
   
       getRelevamientos();
     }, []);
+
+    useEffect(() => {
+      const getRelevamientos = async () => {
+        if (userData){
+          try {      
+            const data = await fetchAsistencias(userData.tokenData.token);
+            setAsistencias(data);
+            console.log("asistencias: ", data);
+          } catch (error) {
+            console.error("Error al cargar las asistencias");
+          }
+        }
+      };
+      getRelevamientos();
+    }, [userData]);
 
   return (
     <div>
@@ -131,24 +162,17 @@ const PanelDeControl = () => {
                 <div className="h-[420px]  bg-gray-100 border rounded-lg p-4">
                     <h2 className="text-lg font-semibold mb-2">HISTORIAL DE ASISTENCIAS</h2>
                    
-                    <GarphicBarsAdmin />
+                    <GarphicBarsAdmin handleUserId={setUserId}   handleAsistenciaId={setAsistenciaId} />
            
                 </div>
                 {/* Grid Derecho: Total de Factura */}
-                <Link href={"/dashboard/pagos"}>   
+    
                 <div className="h-[420px]  mb-6 p-4 bg-gray-100 border rounded-lg">
-                        <h2 className="text-lg font-bold mb-2">DETALLES DE...</h2>
+                        <h2 className="text-lg font-bold mb-2">DETALLES DE UBICACIÓN</h2>
                           <br />                 
-                        <p className=" font-semibold "><span className="text-blue-900 font-bold">Servicio: </span> &nbsp; {ultimaFacturaNoPagada?.concepto}</p>
-                        <p className="font-semibold "><span className="text-blue-900 font-bold">Cantidad de Equipos: </span> &nbsp; </p>
-                            <p className=" font-semibold "><span className="text-blue-900 font-bold">Mes: </span> &nbsp; {ultimaFacturaNoPagada?.observaciones}</p>
-                            <p className="font-semibold "><span className="text-blue-900 font-bold">Fecha Emisión: </span> &nbsp;  {new Date(ultimaFacturaNoPagada?.fechaGen ?? '').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                            <br /> 
-                            <p className="font-semibold text-center text-[80px]"> &nbsp; $ {ultimaFacturaNoPagada?.importe}</p>
-                            <br /> 
-                            <p className="font-semibold text-center"><span className="text-gray-600 font-bold border p-4 bg-[#37a0ab9d]">Vencimiento: </span> &nbsp;  {new Date(ultimaFacturaNoPagada?.fechaVencimiento ?? '').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</p>  
+                        <Maps userId={userId}/>
                 </div>   
-                </Link>  
+     
             </div>
 
             {/* Tercer Bloque: HISTORIAL DE FACTURAS */}
@@ -161,26 +185,26 @@ const PanelDeControl = () => {
         <thead>
           <tr className="bg-gray-200">
             <th className="border px-4 py-2">N°</th>
-            <th className="border px-4 py-2">Fecha de Emisión</th>
-            <th className="border px-4 py-2">Mes Correspondiente</th>
-            <th className="border px-4 py-2">Vencimiento</th>
-            <th className="border px-4 py-2">Concepto</th>
-            <th className="border px-4 py-2">Importe</th>
-            <th className="border px-4 py-2">Estado</th>
+            <th className="border px-4 py-2">Fecha de Solicitud</th>
+            <th className="border px-4 py-2">Agente</th>
+            <th className="border px-4 py-2">Cliente</th>
+            <th className="border px-4 py-2">Problema</th>
+            <th className="border px-4 py-2">Observaciones</th>
+
           </tr>
         </thead>
         <tbody>
-          {facturas?.map((factura) => (
-            <tr key={factura.id}>
-              <td className="border px-4 py-2">{factura.numFactura}</td>
-              <td className="border px-4 py-2">{new Date(factura.fechaGen).toLocaleDateString()}</td>
-              <td className="border px-4 py-2">{factura.observaciones}</td>
-              <td className="border px-4 py-2">{new Date(factura.fechaVencimiento).toLocaleDateString()}</td>
-              <td className="border px-4 py-2">{factura.concepto}</td>
-              <td className="border px-4 py-2">${factura.importe.toFixed(2)}</td>
-              <td className={`border px-4 py-2 ${factura.pagado ? 'text-green-600' : 'text-red-600'}`}>
-                {factura.pagado ? 'Pagado' : 'Pendiente'}
-              </td>
+          {asistencias?.map((asistencia) => (
+            <tr 
+            key={asistencia.id}
+            className={asistenciaId === asistencia.id ? 'bg-blue-200' : ''} 
+            >
+              <td className="border px-4 py-2">{i++}</td>
+              <td className="border px-4 py-2">{new Date(asistencia.createdAt).toLocaleDateString()}</td>
+              <td className="border px-4 py-2">{asistencia.agente}</td>
+              <td className="border px-4 py-2">{asistencia.userId}</td>
+              <td className="border px-4 py-2">{asistencia.problema}</td>
+              <td className="border px-4 py-2">{asistencia.observaciones}</td>
             </tr>
           ))}
         </tbody>
