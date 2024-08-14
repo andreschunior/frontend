@@ -75,7 +75,7 @@ const [lng, setLng ] = useState<number>();
 
   return (
     <>
-      <LoadScript googleMapsApiKey="AIzaSyAbPohYAyY-xlQhba0_Ivyft4RfPFIJxs8">
+      <LoadScript googleMapsApiKey="">
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={8}
