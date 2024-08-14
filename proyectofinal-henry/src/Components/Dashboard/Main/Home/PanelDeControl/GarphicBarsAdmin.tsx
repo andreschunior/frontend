@@ -1,27 +1,85 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
 import { useAuth } from '@/context/AuthContext';
+import { fetchAsistencias } from '@/services/Soporte.services';
 
-const GarphicBars = () => {
+interface Asistencia {
+  id: string;
+  createdAt: string;
+  agente: string;
+  userId: string;
+  diaCliente: string;
+  horarios: string;
+  problema: string;
+  observaciones: string;
+}
+
+
+
+const GarphicBars = ({ handleUserId, handleAsistenciaId } : { handleUserId: (value: string) => void, handleAsistenciaId: (value: string) => void }) => {
   const { userData } = useAuth();
+  const [asistencias, setAsistencias] = useState<Asistencia[]>([]);
 
-  const facturas = userData?.userData.facturas;
-  const importes = facturas?.map(factura => factura.importe).filter(importe => importe !== undefined) || [];
-  const fechas = facturas?.map(factura => factura.observaciones).filter(observacion => observacion !== undefined) || [];
-  const colores = userData?.userData.facturas
-    .map(factura => factura.pagado ? '#379fab' : '#d12424') || [];
+  const cant = asistencias?.map(asistencia => 1).filter(importe => importe !== undefined) || [];
+
+  const userIds = asistencias?.map(asistencia => asistencia.userId) || [];
+  const AsistenciaIds = asistencias?.map(asistencia => asistencia.id) || [];
+
+  const fechas = asistencias?.map(asistencia => new Date(asistencia.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })).filter(observacion => observacion !== undefined) || [];
+
+  const predefinedColors = [
+    '#BFD3C1', // Pastel Green
+    '#C8E0D8', // Light Mint Green
+    '#D3E4CD', // Pale Olive
+    '#F0E2B6', // Light Beige
+    '#E8D6B8', // Soft Taupe
+    '#D8C6E1', // Lavender Gray
+    '#D9EAD3', // Light Sage
+    '#F3E1D0', // Cream
+    '#D6E2E5', // Soft Blue
+    '#E1D7D0'  // Light Stone
+  ];
+
+
+    useEffect(() => {
+      const getRelevamientos = async () => {
+        if (userData){
+          try {      
+            const data = await fetchAsistencias(userData.tokenData.token);
+            setAsistencias(data);
+            console.log("asistencias: ", data);
+          } catch (error) {
+            console.error("Error al cargar las asistencias");
+          }
+        }
+      };
+      getRelevamientos();
+    }, [userData]);
+
+    const colors = cant.map((_, index) => predefinedColors[index % predefinedColors.length]);
 
   const options: ApexOptions = {
     series: [{
-      name: 'Montos de Facturas',
-      data: importes
-    }],
-    chart: {
-      height: 350,
-      type: 'bar',
+      name: "Cantidad de solicitudes",
+      data:cant,
     },
+  ],
+  chart: {
+    height: 350,
+    type: 'bar',
+    events: {
+      dataPointSelection: (event, chartContext, { dataPointIndex }) => {
+        const selectedUserId = userIds[dataPointIndex];
+        const selectedAsistenciaId = AsistenciaIds[dataPointIndex];
+        console.log("UserId seleccionado:", selectedUserId);
+        console.log("AsistenciaId seleccionads:", selectedAsistenciaId);
+        handleUserId(selectedUserId);
+        handleAsistenciaId(selectedAsistenciaId)
+      }
+    }
+  },
     plotOptions: {
       bar: {
         borderRadius: 10,
@@ -30,12 +88,12 @@ const GarphicBars = () => {
         },
         distributed: true,
       }
-    },
-    colors: colores,
+    }, 
+    colors: ["#379fab"],
     dataLabels: {
       enabled: true,
       formatter: function (val: number) {
-        return "$" + val;
+        return  val;
       },
       offsetY: -20,
       style: {
@@ -78,10 +136,13 @@ const GarphicBars = () => {
       labels: {
         show: false,
         formatter: function (val: number) {
-          return "$" + val;
+          return " " + val;
         }
       }
     },
+    legend: {
+      show: false  // Oculta la leyenda
+    }
   };
 
   return (
