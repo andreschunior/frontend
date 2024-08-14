@@ -5,6 +5,8 @@ import { IUserSession } from "@/types/login.types";
 import { loginUser } from "@/services/user.services";
 import { useAuth } from "@/context/AuthContext";
 
+const API_KEY_MAPS = process.env.NEXT_PUBLIC_API_KEY_MAPS;
+
 const mapContainerStyle = {
   width: "100%",
   height: "320px",
@@ -75,15 +77,18 @@ const [lng, setLng ] = useState<number>();
 
   return (
     <>
-      <LoadScript googleMapsApiKey="AIzaSyAbPohYAyY-xlQhba0_Ivyft4RfPFIJxs8">
+  { API_KEY_MAPS &&
+      <LoadScript googleMapsApiKey={API_KEY_MAPS}>
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={8}
           center={currentPosition }
-        >
+          >
           {currentPosition && <Marker position={currentPosition} />}
         </GoogleMap>
       </LoadScript>
+    }
+
     </>
   );
 };
