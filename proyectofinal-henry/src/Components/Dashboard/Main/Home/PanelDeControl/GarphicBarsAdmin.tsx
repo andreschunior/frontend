@@ -16,8 +16,6 @@ interface Asistencia {
   observaciones: string;
 }
 
-
-
 const GarphicBars = ({ handleUserId, handleAsistenciaId } : { handleUserId: (value: string) => void, handleAsistenciaId: (value: string) => void }) => {
   const { userData } = useAuth();
   const [asistencias, setAsistencias] = useState<Asistencia[]>([]);
@@ -28,19 +26,6 @@ const GarphicBars = ({ handleUserId, handleAsistenciaId } : { handleUserId: (val
   const AsistenciaIds = asistencias?.map(asistencia => asistencia.id) || [];
 
   const fechas = asistencias?.map(asistencia => new Date(asistencia.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })).filter(observacion => observacion !== undefined) || [];
-
-  const predefinedColors = [
-    '#BFD3C1', // Pastel Green
-    '#C8E0D8', // Light Mint Green
-    '#D3E4CD', // Pale Olive
-    '#F0E2B6', // Light Beige
-    '#E8D6B8', // Soft Taupe
-    '#D8C6E1', // Lavender Gray
-    '#D9EAD3', // Light Sage
-    '#F3E1D0', // Cream
-    '#D6E2E5', // Soft Blue
-    '#E1D7D0'  // Light Stone
-  ];
 
 
     useEffect(() => {
@@ -57,8 +42,6 @@ const GarphicBars = ({ handleUserId, handleAsistenciaId } : { handleUserId: (val
       };
       getRelevamientos();
     }, [userData]);
-
-    const colors = cant.map((_, index) => predefinedColors[index % predefinedColors.length]);
 
   const options: ApexOptions = {
     series: [{
