@@ -66,7 +66,8 @@ const FacturasList: React.FC = () => {
 
   const handlePay = () => {
     console.log("Pagar factura", selectedFactura);
-    router.push("/dashboard/pagos");
+    router.push(`/dashboard/pagos?id=${selectedFactura?.id}&userId=${userData?.userData.id}&amount=${selectedFactura?.importe}`);
+    // router.push("/dashboard/pagos");
     console.log(selectedFactura?.id);
   };
 

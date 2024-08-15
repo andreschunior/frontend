@@ -1,15 +1,27 @@
 "use client";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Payment } from '@mercadopago/sdk-react';
+import { useRouter } from "next/navigation";
 
 interface PaymentBrickProps {
   preferenceId: string;
+  amount: (number | null);
 }
 
-const PaymentBrick: React.FC<PaymentBrickProps> = ({ preferenceId }) => {
+export const apiURL = process.env.NEXT_PUBLIC_API_URL;
+
+const PaymentBrick: React.FC<PaymentBrickProps> = ({ preferenceId, amount }) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!preferenceId) {
+      console.error("Preference ID is missing");
+    }
+  }, [preferenceId]);
+
   const initialization = {
-    amount: 100, // Ajusta esto según tu lógica
-    preferenceId: preferenceId,
+    amount: (amount) ? amount : 1,
+    preferenceId,
   };
 
   const customization = {
@@ -22,22 +34,37 @@ const PaymentBrick: React.FC<PaymentBrickProps> = ({ preferenceId }) => {
   };
 
   const onSubmit = async ({ selectedPaymentMethod, formData }: { selectedPaymentMethod: string; formData: any }) => {
+    
+    const token = formData.token;
+
     return new Promise<void>((resolve, reject) => {
-      fetch('/api/payments/process-payment', {
+      fetch(`${apiURL}/mercado-pago/process-payment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          token: token,
+          paymentMethod: selectedPaymentMethod,
+          ...formData,
+        }),
       })
         .then((response) => response.json())
-        .then(() => resolve())
+        // .then(() => resolve())
+        .then((response) => {
+          console.log('Response from payment process:', response);
+          const paymentId = response.id;
+          router.push(`/dashboard/pagosStatus?paymentId=${paymentId}`);
+
+          resolve();
+        })
         .catch(() => reject());
     });
+
   };
 
   const onError = (error: any) => {
-    console.error(error);
+    console.error("Error:", error);
   };
 
   const onReady = () => {
@@ -45,16 +72,16 @@ const PaymentBrick: React.FC<PaymentBrickProps> = ({ preferenceId }) => {
   };
 
   return (
-    // <div className="w-80 max-w-full mx-auto">
-    <Payment
-      initialization={initialization}
-      customization={customization}
-      onSubmit={onSubmit}
-      onReady={onReady}
-      onError={onError}
-      locale='es-AR'
-    />
-    // </div>
+    <div className="w-200 max-w-full mx-auto">
+      <Payment
+        initialization={initialization}
+        customization={customization}
+        onSubmit={onSubmit}
+        onReady={onReady}
+        onError={onError}
+        locale='es-AR'
+      />
+    </div>
   );
 };
 

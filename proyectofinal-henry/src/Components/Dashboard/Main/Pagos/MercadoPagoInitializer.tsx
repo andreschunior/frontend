@@ -3,9 +3,11 @@
 import { useEffect } from 'react';
 import { initMercadoPago } from '@mercadopago/sdk-react';
 
+export const MP_KEY = process.env.NEXT_PUBLIC_MP_API_KEY
+
 const MercadoPagoInitializer: React.FC = () => {
   useEffect(() => {
-    initMercadoPago('TEST-56e23f85-11d0-4b05-a695-e6889282fbad');
+    initMercadoPago(`${MP_KEY}`);
     console.log('initMercadoPago en component')
   }, []);
 
