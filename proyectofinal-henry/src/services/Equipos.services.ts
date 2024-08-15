@@ -7,7 +7,7 @@ const apiURL = process.env.NEXT_PUBLIC_API_URL;
 export const fetchEquipos = async (token: string): Promise<Equipos[]> => {
   try {
     const response = await axios.get(
-      `${apiURL}/equipos?page=1&limit=5`,
+      `${apiURL}/equipos?page=1&limit=20`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -15,6 +15,7 @@ export const fetchEquipos = async (token: string): Promise<Equipos[]> => {
       }
     );
     return response.data;
+    
   } catch (error) {
     console.error("Error al obtener los datos:", error);
     throw error;

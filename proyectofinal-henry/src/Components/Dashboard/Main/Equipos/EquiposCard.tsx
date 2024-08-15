@@ -25,6 +25,7 @@ export const EquiposCard: React.FC = () => {
       try {
         const equiposData = await fetchEquipos(token);
         setEquipos(equiposData);
+        console.log(equiposData);
       } catch (error) {
         console.error("Error al obtener los datos:", error);
       }

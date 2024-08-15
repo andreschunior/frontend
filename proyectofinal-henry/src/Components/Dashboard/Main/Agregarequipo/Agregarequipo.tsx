@@ -23,9 +23,14 @@ const Agregarequipo: React.FC = () => {
 
     const token = userData.tokenData.token;
 
+    // Eliminar campos vacíos
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([_, value]) => value !== "")
+    );
+
     // Asignamos isAvailable y isInstalled
     const equipoData = {
-      ...data,
+      ...filteredData,
       isAvailable: true,
       isInstalled: false,
     };
@@ -33,6 +38,7 @@ const Agregarequipo: React.FC = () => {
     try {
       await AddEquipo(token, equipoData);
       alert("Equipo creado exitosamente");
+      console.log(equipoData);
     } catch (error) {
       console.error("Error al crear el equipo:", error);
     }
