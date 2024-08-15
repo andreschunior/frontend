@@ -60,12 +60,6 @@ export async function loginUser(id: string|null, token: string|null) {
     }
 }
 
-
-
-
-
-
-
 export const getUserById = async (userId: string, token: string) => {
   try {
     const response = await axios.get(`http://localhost:3000/users/${userId}`, {
@@ -81,6 +75,25 @@ export const getUserById = async (userId: string, token: string) => {
     } else {
       console.error("Error desconocido:", error);
       throw new Error("Error desconocido al obtener los datos del usuario");
+    }
+  }
+};
+
+export const deleteUserById = async (userId: string, token: string) => {
+  try {
+    const response = await axios.delete(`http://localhost:3000/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data; // Puedes ajustar esto según la respuesta de tu API
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Error en la solicitud Axios:", error.message);
+      throw new Error(error.response?.data?.message || "Error al eliminar el usuario");
+    } else {
+      console.error("Error desconocido:", error);
+      throw new Error("Error desconocido al eliminar el usuario");
     }
   }
 };

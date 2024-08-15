@@ -103,6 +103,8 @@ export const FormServicio: React.FC<FormServicioProps> = ({
         latitud: parseFloat(latitud),
         longitud: parseFloat(longitud),
       };
+      console.log(latitud);
+      console.log(longitud);
 
       const response = await enviarRelevamiento(relevamientoData);
 
@@ -182,12 +184,21 @@ export const FormServicio: React.FC<FormServicioProps> = ({
             type="tel"
             id="telefono"
             className="w-full p-2 border border-gray-300 rounded-md"
-            {...register("telefono", { required: true, maxLength: 15 })}
+            {...register("telefono", {
+              required: true,
+              maxLength: 15,
+              minLength: 7,
+              pattern: {
+                value: /^\d+$/,
+                message: "El valor debe ser un número válido",
+              },
+            })}
             onInput={() => handleInputChange("telefono")}
           />
           {showErrors.telefono && errors.telefono && (
             <p className="text-red-500">
-              Teléfono es requerido y debe tener menos de 15 caracteres
+              Teléfono es requerido y debe tener al menos 7 digitos y ser solo
+              numeros
             </p>
           )}
         </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import logo_01 from "../../../../public/images/Logo01.png"
+import logo_01 from "../../../../public/images/Logo01.png";
 import Image from "next/image";
 import Button from "./Button/Button";
 
@@ -9,7 +9,7 @@ export const Navbar: React.FC = () => {
       <nav className="bg-customBlue border-gray-200 dark:bg-gray-900 font-roboto fixed top-0 left-0 right-0 z-50">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
           <a
-            href="https://flowbite.com/"
+            href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <Image
@@ -63,9 +63,9 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-    < Button />
+          <Button />
 
-{/* 
+          {/* 
           <button
             data-collapse-toggle="navbar-default"
             type="button"
