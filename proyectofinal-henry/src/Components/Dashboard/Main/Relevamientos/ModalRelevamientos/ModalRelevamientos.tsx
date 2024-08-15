@@ -1,5 +1,6 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import React, { useState } from "react";
+import { MapaRelevamiento } from "./MapaRelevamiento"; // Asegúrate de que la ruta sea correcta
 
 interface Localidad {
   id: string;
@@ -20,6 +21,8 @@ interface Relevamiento {
   provincia: Provincia;
   localidad: Localidad;
   razon: string;
+  latitud: number;
+  longitud: number;
 }
 
 interface ModalRelevamientosProps {
@@ -27,8 +30,11 @@ interface ModalRelevamientosProps {
   closeModal: () => void;
 }
 
-const ModalRelevamientos: React.FC<ModalRelevamientosProps> = ({ relevamiento, closeModal }) => {
-  const [isEditing, setIsEditing] = useState<{[key: string]: boolean}>({
+const ModalRelevamientos: React.FC<ModalRelevamientosProps> = ({
+  relevamiento,
+  closeModal,
+}) => {
+  const [isEditing, setIsEditing] = useState<{ [key: string]: boolean }>({
     nombre: false,
     email: false,
     telefono: false,
@@ -36,6 +42,13 @@ const ModalRelevamientos: React.FC<ModalRelevamientosProps> = ({ relevamiento, c
     provincia: false,
     localidad: false,
     razon: false,
+    latitud: false,
+    longitud: false,
+  });
+
+  const [location, setLocation] = useState<{ lat: number; lng: number }>({
+    lat: relevamiento.latitud,
+    lng: relevamiento.longitud,
   });
 
   const handleEditClick = (field: string) => {
@@ -52,7 +65,14 @@ const ModalRelevamientos: React.FC<ModalRelevamientosProps> = ({ relevamiento, c
     direccion: relevamiento.direccion,
     provincia: relevamiento.provincia.nombre,
     localidad: relevamiento.localidad.nombre,
-    razon: relevamiento.razon
+    razon: relevamiento.razon,
+    latitud: relevamiento.latitud,
+    longitud: relevamiento.longitud,
+  };
+
+  const handleLocationChange = (newCoords: { lat: number; lng: number }) => {
+    setLocation(newCoords);
+    // Si necesitas actualizar las coordenadas en el relevamiento, puedes hacerlo aquí.
   };
 
   return (
@@ -76,65 +96,78 @@ const ModalRelevamientos: React.FC<ModalRelevamientosProps> = ({ relevamiento, c
                 className="ml-4 bg-blue-500 text-white px-2 py-1 rounded"
                 onClick={() => handleEditClick(key)}
               >
-                {isEditing[key] ? 'Guardar' : 'Editar'}
+                {isEditing[key] ? "Guardar" : "Editar"}
               </button>
             </div>
           ))}
         </div>
 
-        <h2 className="text-xl font-bold mb-4">Completar Información del Relevamiento</h2>
-        <div className="grid grid-cols-2 gap-4 h-full">
+        <h2 className="text-xl font-bold mb-4">
+          Completar Información del Relevamiento
+        </h2>
+        <div className="grid grid-cols-2 gap-4 h-auto">
           <div>
             <form className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Latitud</label>
-                <input type="number" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+                <label className="block text-sm font-medium text-gray-700">
+                  Día del Cliente
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Longitud</label>
-                <input type="number" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+                <label className="block text-sm font-medium text-gray-700">
+                  Horarios
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Provincia</label>
-                <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+                <label className="block text-sm font-medium text-gray-700">
+                  Domicilio de Instalación
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Localidad</label>
-                <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+                <label className="block text-sm font-medium text-gray-700">
+                  Localidad de Instalación
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Día del Cliente</label>
-                <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+                <label className="block text-sm font-medium text-gray-700">
+                  Email de Instalación
+                </label>
+                <input
+                  type="email"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Horarios</label>
-                <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Domicilio de Instalación</label>
-                <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Localidad de Instalación</label>
-                <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Email de Instalación</label>
-                <input type="email" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Observaciones</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Observaciones
+                </label>
                 <textarea className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
               </div>
               <div className="mt-4 text-right">
-                <button 
-                  className="bg-blue-500 text-white px-4 py-2 rounded" 
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
                   type="submit"
                 >
                   Guardar
                 </button>
-                <button 
-                  className="bg-gray-500 text-white px-4 py-2 rounded ml-2" 
+                <button
+                  className="bg-gray-500 text-white px-4 py-2 rounded ml-2"
                   onClick={closeModal}
                   type="button"
                 >
@@ -143,7 +176,12 @@ const ModalRelevamientos: React.FC<ModalRelevamientosProps> = ({ relevamiento, c
               </div>
             </form>
           </div>
-          <div className="bg-gray-200 h-full"> {/* Aquí irá el mapa */}</div>
+          <div className="h-full">
+            <MapaRelevamiento
+              coordinates={location}
+              onLocationChange={handleLocationChange}
+            />
+          </div>
         </div>
       </div>
     </div>

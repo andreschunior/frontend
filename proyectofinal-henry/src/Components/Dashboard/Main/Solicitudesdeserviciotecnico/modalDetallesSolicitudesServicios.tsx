@@ -95,6 +95,11 @@ const AsistenciaModal: React.FC<AsistenciaModalProps> = ({
             ? error
             : (user as any)?.nombre || asistencia.userId}
         </p>
+        <p>
+          <strong>Id del Usuario:</strong>{" "}
+          {loading ? "Cargando..." : error ? error : asistencia.userId}
+        </p>
+
         <button
           onClick={handleDelete}
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-4 mr-2"
