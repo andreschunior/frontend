@@ -1,32 +1,51 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { sendAssistanceRequest } from '@/services/profileApi'; // Asegúrate de importar la función correcta
+import { sendProfileChangeRequest } from '@/services/profileApi';
 
 const ActualizarDatosPerfil: React.FC = () => {
   const { userData } = useAuth();
 
   const [formData, setFormData] = useState({
-    nombre: userData?.userData.nombre || '',
-    email: userData?.userData.email || '',
-    telefono: userData?.userData.telefono || '',
-    direccion: userData?.userData.direccion || '',
-    documento: userData?.userData.documento || '',
-    codigoPostal: userData?.userData.codigoPostal || '',
-    domicilioInstal: userData?.userData.domicilioInstal || '',
-    localidadInstal: userData?.userData.localidadInstal || '',
-    telefonoInstal: userData?.userData.telefonoInstal || '',
-    emailInstal: userData?.userData.emailInstal || '',
-    observaciones: userData?.userData.observaciones || '',
-    senalConexion: userData?.userData.senalConexion || '',
+    nombre: '',
+    email: '',
+    telefono: '',
+    direccion: '',
+    documento: '',
+    codigoPostal: '',
+    domicilioInstal: '',
+    localidadInstal: '',
+    telefonoInstal: '',
+    emailInstal: '',
+    observaciones: '',
+    senalConexion: '',
   });
 
   const [errors, setErrors] = useState<any>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        nombre: userData.userData.nombre || '',
+        email: userData.userData.email || '',
+        telefono: userData.userData.telefono?.toString() || '',
+        direccion: userData.userData.direccion || '',
+        documento: userData.userData.documento?.toString() || '',
+        codigoPostal: userData.userData.codigoPostal?.toString() || '',
+        domicilioInstal: userData.userData.domicilioInstal || '',
+        localidadInstal: userData.userData.localidadInstal || '',
+        telefonoInstal: userData.userData.telefonoInstal?.toString() || '',
+        emailInstal: userData.userData.emailInstal || '',
+        observaciones: userData.userData.observaciones || '',
+        senalConexion: userData.userData.senalConexion || '',
+      });
+    }
+  }, [userData]);
 
   const validate = () => {
     const newErrors: any = {};
 
-    // Validación de datos del formulario
     if (!formData.nombre) newErrors.nombre = 'El nombre es obligatorio.';
     if (!formData.email) newErrors.email = 'El email es obligatorio.';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'El email no es válido.';
@@ -54,22 +73,24 @@ const ActualizarDatosPerfil: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);  // Limpiar errores previos
     if (validate()) {
       try {
-        const token = userData?.tokenData.token || ''; 
-        const userId = userData?.userData.id || ''; 
-        
-        // Convierte `documento` y `telefonoInstal` a string si son números
-        const adjustedFormData = {
-          ...formData,
-          documento: String(formData.documento),
-          telefonoInstal: String(formData.telefonoInstal),
-        };
-
-        const response = await sendAssistanceRequest(token, userId, adjustedFormData); 
-        console.log("Perfil actualizado:", response);
+        if (!userData?.tokenData?.token || !userData?.userData?.id) {
+          setSubmitError('Falta el token de autenticación o el ID de usuario.');
+          return;
+        }
+  
+        const token = userData.tokenData.token; 
+        const userId = userData.userData.id;
+  
+        console.log("Token de autenticación:", token); // Verifica el token aquí
+  
+        const response = await sendProfileChangeRequest(token, userId, formData); 
+        console.log("Solicitud de cambio de perfil enviada:", response);
       } catch (error) {
         console.error("Error al enviar los datos:", error);
+        setSubmitError('Error al enviar los datos. Por favor, inténtalo de nuevo.');
       }
     }
   };
@@ -199,11 +220,12 @@ const ActualizarDatosPerfil: React.FC = () => {
             {errors.senalConexion && <p className="text-red-500 text-sm">{errors.senalConexion}</p>}
           </div>
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300 w-full"
+        {submitError && <p className="text-red-500 text-center mb-4">{submitError}</p>}
+        <button 
+          type="submit" 
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full"
         >
-          Guardar Cambios
+          Actualizar Datos
         </button>
       </form>
     </div>
