@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import Equipos from "@/types/Equipos.types";
 import { fetchAllUsers } from "@/services/allUsers.services";
-import { EditarEquipo } from "@/services/Equipos.services";
+import {
+  EditarEquipo,
+  desasignarUsuarioEquipo,
+} from "@/services/Equipos.services";
 import EquiposEditModal from "./EditarEquiposModa";
 import { useAuth } from "@/context/AuthContext";
 import { getUserById } from "@/services/user.services";
@@ -80,7 +83,7 @@ const EquiposModal: React.FC<EquiposModalProps> = ({ equipo, onClose }) => {
           userData.tokenData.token
         );
         console.log("Equipo actualizado:", result);
-        setAssignedUser(result.user || null); // Asegúrate de actualizar el estado del usuario asignado
+        setAssignedUser(result.user || null);
         setIsEditModalOpen(false);
         onClose();
       } catch (error) {
@@ -96,21 +99,13 @@ const EquiposModal: React.FC<EquiposModalProps> = ({ equipo, onClose }) => {
         return;
       }
 
-      const updatedEquipo = {
-        ...equipo,
-        userId: null, // Desasigna el usuario
-        isInstalled: false,
-        isAvailable: true,
-        // Omitir 'user' si no es necesario
-      };
-
       try {
-        const result = await EditarEquipo(
+        // Llamada al servicio para desasignar el usuario del equipo
+        const result = await desasignarUsuarioEquipo(
           equipo.id,
-          updatedEquipo,
           userData.tokenData.token
         );
-        console.log("Equipo actualizado:", result);
+        console.log("Usuario desasignado del equipo:", result);
         setAssignedUser(null); // Limpia los detalles del usuario asignado
         setIsEditModalOpen(false);
         onClose();

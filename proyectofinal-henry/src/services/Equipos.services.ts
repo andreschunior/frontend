@@ -50,3 +50,21 @@ export const EditarEquipo = async (id: string, data: Equipos, token: string) => 
     throw error; 
   }
 };
+
+export const desasignarUsuarioEquipo = async (equipoId: string, token: string) => {
+  try {
+    const response = await axios.patch(
+      `http://localhost:3000/equipos/${equipoId}/desasignar`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error al desasignar el usuario del equipo:', error);
+    throw error;
+  }
+};
