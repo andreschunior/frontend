@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+const API_KEY_MAPS = process.env.NEXT_PUBLIC_API_KEY_MAPS ? process.env.NEXT_PUBLIC_API_KEY_MAPS : "";
 
 const containerStyle = {
   width: "100%",
@@ -20,7 +21,7 @@ export const MapaRelevamiento: React.FC<MapaProps> = ({
   onLocationChange,
 }) => {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "", // Reemplaza con tu clave API real
+    googleMapsApiKey: API_KEY_MAPS, // Reemplaza con tu clave API real
   });
 
   const mapRef = useRef<HTMLDivElement>(null);
