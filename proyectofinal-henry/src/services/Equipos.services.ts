@@ -47,6 +47,6 @@ export const EditarEquipo = async (id: string, data: Equipos, token: string) => 
     return response.data;
   } catch (error) {
     console.error("Error al editar el equipo:", error);
-    throw error; // Re-lanzar el error para que pueda ser manejado por el componente
+    throw error; 
   }
 };

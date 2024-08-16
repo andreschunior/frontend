@@ -117,3 +117,24 @@ interface IUserData {
   }[];
   facturas: Factura[];
 }
+
+
+interface CrearUsuarioRequest {
+  imgUrl: string;
+  nombre: string;
+  codArea: string;
+  telefono: string;
+  direccion: string;
+  latitud: number;
+  longitud: number;
+  tipoDocum: string;
+  documento: string;
+  email: string;
+  password: string;
+  passwordconfirm:string
+  provinciaId: string;
+  localidadId: string;
+  codigoPostal: string;
+}
+
+export default CrearUsuarioRequest

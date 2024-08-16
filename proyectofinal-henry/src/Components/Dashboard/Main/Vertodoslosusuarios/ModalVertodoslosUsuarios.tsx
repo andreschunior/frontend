@@ -81,7 +81,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
           <p>
             <strong>Es Administrador:</strong> {user.isAdmin ? "Sí" : "No"}
           </p>
-          <p>
+          {/* <p>
             <strong>Domicilio de Instalación:</strong> {user.domicilioInstal}
           </p>
           <p>
@@ -92,7 +92,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
           </p>
           <p>
             <strong>Email de Instalación:</strong> {user.emailInstal}
-          </p>
+          </p> */}
           <div className="mt-4 flex justify-end space-x-2">
             <button
               onClick={onClose}

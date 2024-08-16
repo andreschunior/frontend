@@ -1,5 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { ILoginProps } from "@/types/login.types";
+import CrearUsuarioRequest from "@/types/user.types";
 import axios from "axios";
 
 export const apiURL = process.env.NEXT_PUBLIC_API_URL;
@@ -98,7 +99,27 @@ export const deleteUserById = async (userId: string, token: string) => {
   }
 };
 
-
-
+export const crearUsuario = async (userPayload: any, token: string) => {
+  try {
+    const response = await axios.post(
+      'http://localhost:3000/auths/signup',
+      userPayload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Error en la creación del usuario:", error.response?.data || error.message);
+    } else {
+      console.error("Error inesperado:", error);
+    }
+    throw error;
+  }
+};
 
 

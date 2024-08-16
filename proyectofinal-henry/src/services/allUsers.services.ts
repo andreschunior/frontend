@@ -6,7 +6,7 @@ const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
   export const fetchAllUsers = async (token: string) => {
     try {
-      const response = await axios.get(`${apiURL}/users?page=${1}&limit${999}`,
+      const response = await axios.get(`${apiURL}/users?page=${1}&limit${99}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
