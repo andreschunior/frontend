@@ -1,3 +1,5 @@
+import { IUserData } from "./login.types";
+
 interface Equipos {
     id?: string;
     nombre?: string;
@@ -13,6 +15,10 @@ interface Equipos {
     cableMts?: string;
     macEquipo?: string;
     antena?: string;
-    isAvailable?: boolean
+    isInstalled: boolean;
+  isAvailable: boolean;
+  user?: { id?: string }; // Cambia esta línea
+ 
+  
   }
   export default Equipos

@@ -14,18 +14,15 @@ export const EquiposCard: React.FC = () => {
 
   useEffect(() => {
     const getEquipos = async () => {
-      console.log("UserData:", userData);
       if (!userData || !userData.tokenData || !userData.tokenData.token) {
         console.error("Token no disponible");
         return;
       }
 
       const token = userData.tokenData.token;
-      console.log("Token:", token);
       try {
         const equiposData = await fetchEquipos(token);
         setEquipos(equiposData);
-        console.log(equiposData);
       } catch (error) {
         console.error("Error al obtener los datos:", error);
       }
@@ -39,7 +36,9 @@ export const EquiposCard: React.FC = () => {
   return (
     <>
       <div className="container mx-auto p-4">
-        <h2 className="text-2xl font-bold mb-4">Equipos Disponibles</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          Equipos Disponibles ({equiposDisponibles.length})
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           {equiposDisponibles.map((equipo) => (
             <div
@@ -71,7 +70,9 @@ export const EquiposCard: React.FC = () => {
           ))}
         </div>
 
-        <h2 className="text-2xl font-bold mb-4">Equipos Asignados</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          Equipos Asignados ({equiposAsignados.length})
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {equiposAsignados.map((equipo) => (
             <div
