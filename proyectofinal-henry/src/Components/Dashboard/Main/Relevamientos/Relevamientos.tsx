@@ -1,11 +1,14 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { RelevamientoData } from "@/types/relevamiento.types";
 import { fetchRelevamientos } from "@/services/relevamientos.services";
 import Swal from "sweetalert2";
 import ModalRelevamientos from "./ModalRelevamientos/ModalRelevamientos";
 import { useSidebarContext } from "@/context/SidebarContext";
+import { useAuth } from "@/context/AuthContext";
+import { fetchAllUsers } from "@/services/allUsers.services";
+import { allUsers } from "@/types/allUsers.types";
 
 interface Localidad {
   id: string;
@@ -31,6 +34,8 @@ interface Relevamiento {
 }
 
 const Relevamientos: React.FC = () => {
+  const { userData } = useAuth();
+  const [users, setUsers] = React.useState<allUsers[]>([]);
   const [relevamientos, setRelevamientos] = React.useState<Relevamiento[]>([]);
   const [
     selectedRelevamiento,
@@ -38,6 +43,22 @@ const Relevamientos: React.FC = () => {
   ] = React.useState<Relevamiento | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const { btnFixed } = useSidebarContext();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userData?.tokenData.token){
+        const token = userData.tokenData.token;
+        try {
+          const dataUsersAPI = await fetchAllUsers(token);
+          console.log("dataUsersAPI: ", dataUsersAPI);
+          setUsers(dataUsersAPI);
+        } catch (error) {
+          console.error("Error al obtener los datos del endpoint", error);
+        }
+      }
+    };
+      fetchData();
+  }, [userData]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -82,8 +103,9 @@ const Relevamientos: React.FC = () => {
       >
         <div className="p-8 max-w-7xl mx-auto mt-4">
           <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-1  lg:grid-cols-3 sm:ml-4 md:ml-4 lg:ml-12">
-            {relevamientos.map((relevamiento) => (
-              <div
+            {relevamientos && relevamientos.map((relevamiento) => (
+               ( !users.map((user) => user.email).includes(relevamiento.email) &&
+                <div
                 key={relevamiento.id}
                 className="bg-white shadow-lg rounded-lg p-6 mb-6 cursor-pointer"
                 onClick={() => handleCardClick(relevamiento)}
@@ -141,7 +163,9 @@ const Relevamientos: React.FC = () => {
                     </span>
                   </div>
                 </div>
-              </div>
+              </div>)
+            
+
             ))}
           </div>
         </div>

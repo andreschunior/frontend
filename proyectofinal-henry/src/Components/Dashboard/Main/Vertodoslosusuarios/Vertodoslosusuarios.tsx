@@ -23,7 +23,7 @@ const Vertodoslosusuarios = () => {
       const token = userData.tokenData.token;
       try {
         const dataUsersAPI = await fetchAllUsers(token);
-        console.log(dataUsersAPI);
+        console.log("dataUsersAPI: ", dataUsersAPI);
         setUsers(dataUsersAPI);
 
         if (dataUsersAPI.length === 0) {
