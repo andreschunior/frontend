@@ -20,6 +20,10 @@ export const sidebarOptionsAdmin = [
                     {optionName: "Solicitudes de Servicio Tecnico",
                      router: true, 
                      subOptions: []},  
+
+                     {optionName: "Aceptar Cambios Perfil",
+                        router: true, 
+                        subOptions: []},
                    
                     ]
         },
