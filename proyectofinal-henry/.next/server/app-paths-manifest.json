@@ -1,10 +1,7 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
   "/login/[slug]/page": "app/login/[slug]/page.js",
   "/dashboard/[slug]/page": "app/dashboard/[slug]/page.js",
-  "/herramientas/page": "app/herramientas/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/servicios/page": "app/servicios/page.js",
-  "/page": "app/page.js",
-  "/verifyAuth0/page": "app/verifyAuth0/page.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }
