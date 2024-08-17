@@ -1,5 +1,7 @@
+import dynamic from 'next/dynamic';
 import React from 'react'
-import VerifyAuth0 from '@/Components/Login/VerifyAuth0/VerifyAuth0'
+
+const VerifyAuth0 = dynamic(() => import('@/Components/Login/VerifyAuth0/VerifyAuth0'), { ssr: false });
 
 const page = () => {
     

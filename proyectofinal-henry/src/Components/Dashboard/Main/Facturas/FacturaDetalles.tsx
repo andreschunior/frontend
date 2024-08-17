@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "@/context/AuthContext";
+//import { useAuth } from "@/context/AuthContext";
 import Factura from "@/types/factura.types";
 import React from "react";
 
@@ -20,9 +20,9 @@ const FacturaDetailModal: React.FC<FacturaDetailModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const { userData } = useAuth();
+  // const { userData } = useAuth();
 
-  console.log(userData);
+  // console.log(userData);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
