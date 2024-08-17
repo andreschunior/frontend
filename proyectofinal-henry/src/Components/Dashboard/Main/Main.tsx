@@ -1,5 +1,5 @@
 import React from "react";
-import UserProfile from "../UserProfile/UserProfile";
+
 import ExpirationAlert from "../ExpirationAlert/ExpirationAlert";
 import Loading from "@/Components/Dashboard/Loading/Loading";
 
@@ -9,7 +9,7 @@ const Main = ({ page }: { page: string }) => {
   const ComponentToRender = React.lazy(() => import(`./${router}/${router}`));
   return (
     <>
-      {page === "userProfile" ? <UserProfile /> : <ComponentToRender />}
+      <ComponentToRender />
       <ExpirationAlert />
       <Loading />
     </>

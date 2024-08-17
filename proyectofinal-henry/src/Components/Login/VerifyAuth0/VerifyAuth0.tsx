@@ -85,7 +85,7 @@ const VerifyAuth0 = () => {
     };
 
         loginSesion();
-    }, [searchParams]);
+    }, [agente, expiresAt, issuedAt, login, router, token, userEmail, userId, userNombre, userRole, verify]);
  
   return (
       <>
