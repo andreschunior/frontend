@@ -54,7 +54,7 @@ export const EditarEquipo = async (id: string, data: Equipos, token: string) => 
 export const desasignarUsuarioEquipo = async (equipoId: string, token: string) => {
   try {
     const response = await axios.patch(
-      `http://localhost:3000/equipos/${equipoId}/desasignar`,
+      `$${apiURL}/equipos/${equipoId}/desasignar`,
       {},
       {
         headers: {

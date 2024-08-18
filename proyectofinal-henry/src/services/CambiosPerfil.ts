@@ -1,9 +1,9 @@
 import axios from 'axios';
-
+const apiURL = process.env.NEXT_PUBLIC_API_URL;
 export const updateUserProfile = async (userId: string, data: any, token: string) => {
   try {
     const response = await axios.put(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
+      `$${apiURL}/users/${userId}`,
       data,
       {
         headers: {
@@ -21,7 +21,7 @@ export const updateUserProfile = async (userId: string, data: any, token: string
 export const getProfileChangeRequests = async (token: string, userId: string) => {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
+      `$${apiURL}/users/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
