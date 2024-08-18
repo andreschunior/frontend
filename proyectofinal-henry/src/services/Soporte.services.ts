@@ -1,4 +1,5 @@
 import axios from "axios";
+const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
 // Esta es la función que realiza la solicitud POST a la API
 export const sendAssistanceRequest = async (
@@ -14,7 +15,7 @@ export const sendAssistanceRequest = async (
   try {
     // Realiza la solicitud POST a la API
     const response = await axios.post(
-      "http://localhost:3000/asistencias", // La URL de la API
+      `${apiURL}/asistencias`, // La URL de la API
       {
         userId,       // Incluye el userId en el cuerpo de la solicitud
         ...data,      // Incluye el resto de los datos (diaCliente, horarios, problema, observaciones)
@@ -42,7 +43,7 @@ export const sendAssistanceRequest = async (
 
 export const fetchAsistencias = async (token: string, page: number = 1, limit: number = 10) => {
   try {
-    const response = await axios.get(`http://localhost:3000/asistencias`, {
+    const response = await axios.get(`${apiURL}/asistencias`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -61,7 +62,7 @@ export const fetchAsistencias = async (token: string, page: number = 1, limit: n
 
 export const deleteAsistencia = async (id: string, token: string) => {
   try {
-    await axios.delete(`http://localhost:3000/asistencias/${id}`, {
+    await axios.delete(`${apiURL}}/asistencias/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
