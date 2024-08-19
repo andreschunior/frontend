@@ -17,8 +17,8 @@ const AuthContext = createContext<IAuthContextProps>({
 export const AuthProvider: React.FC<IProviderProps> = ({ children }) => {
   const [userData, setUserData] = useState<IUserData | null>(null);
   const router = useRouter();
-  
 
+  // Efecto para manejar el almacenamiento en cookies y localStorage
   useEffect(() => {
     if (userData && userData.tokenData) {
       setCookie(null, "authToken", userData.tokenData.token, {
@@ -29,16 +29,20 @@ export const AuthProvider: React.FC<IProviderProps> = ({ children }) => {
     }
   }, [userData]);
 
+  // Efecto para manejar los cambios en el almacenamiento local
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
       const storedUserData = localStorage.getItem("userSession");
       if (storedUserData) setUserData(JSON.parse(storedUserData));
     }
+
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === "userSession") {
         if (event.newValue) {
           setUserData(JSON.parse(event.newValue));
-          router.push("/");
+          // Uso de función interna para manejar redirección
+          const navigateToHome = () => router.push("/");
+          navigateToHome();
         } else {
           setUserData(null);
           localStorage.removeItem("userSession");
@@ -47,24 +51,27 @@ export const AuthProvider: React.FC<IProviderProps> = ({ children }) => {
         }
       }
     };
+
     window.addEventListener("storage", handleStorageChange);
+
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, [router]);
+  }, []); // Deja el arreglo de dependencias vacío para evitar advertencias
 
   const [cookieReady, setCookieReady] = useState(false);
 
-  const login = (user: IUserData | null) => {
-    setUserData(user);
-    setCookieReady(true);
-  };
-  
+  // Efecto para redirigir después de que la cookie esté lista
   useEffect(() => {
     if (cookieReady) {
       router.push("/dashboard/home");
     }
   }, [cookieReady]);
+
+  const login = (user: IUserData | null) => {
+    setUserData(user);
+    setCookieReady(true);
+  };
 
   const logout = () => {
     setUserData(null);
@@ -80,12 +87,18 @@ export const AuthProvider: React.FC<IProviderProps> = ({ children }) => {
       try {
         const loginProps: ILoginProps = {
           email: userData.userData.email,
-          password:userData.tokenData.keyProperty
-        }
+          password: userData.tokenData.keyProperty,
+        };
         const firstNewTokenData: ITokenSession = await loginSesion(loginProps);
-        const newTokenData = {...firstNewTokenData, keyProperty: loginProps.password}
-        const user: IUserData | null = {tokenData: newTokenData, userData: userData.userData}
-        setUserData(user);  
+        const newTokenData = {
+          ...firstNewTokenData,
+          keyProperty: loginProps.password,
+        };
+        const user: IUserData | null = {
+          tokenData: newTokenData,
+          userData: userData.userData,
+        };
+        setUserData(user);
         window.location.reload();
       } catch (error) {
         console.error("Error renovando el token:", error);

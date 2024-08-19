@@ -1,3 +1,4 @@
+"use client";
 // components/EquiposEditModal.tsx
 import React from "react";
 import { useForm } from "react-hook-form";
