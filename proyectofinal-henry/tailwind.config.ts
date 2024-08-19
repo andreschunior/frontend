@@ -1,10 +1,13 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+const config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  safelist: [
+    'bg-customBlue', // Ejemplo de clase que quieres mantener
+    'text-blue-500', // Ejemplo de clase que quieres mantener
+    // Agrega aquí más clases que necesitas asegurar
   ],
   theme: {
     extend: {
