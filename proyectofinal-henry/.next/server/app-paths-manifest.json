@@ -1,6 +1,10 @@
 {
-  "/login/[slug]/page": "app/login/[slug]/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/dashboard/[slug]/page": "app/dashboard/[slug]/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js"
+  "/herramientas/page": "app/herramientas/page.js",
+  "/page": "app/page.js",
+  "/servicios/page": "app/servicios/page.js",
+  "/login/[slug]/page": "app/login/[slug]/page.js",
+  "/verifyAuth0/page": "app/verifyAuth0/page.js"
 }
